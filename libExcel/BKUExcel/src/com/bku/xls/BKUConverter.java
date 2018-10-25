@@ -10,5 +10,8 @@ package com.bku.xls;
  * @author user only
  */
 public class BKUConverter {
+
+    public BKUConverter() {
+    }
     
 }
