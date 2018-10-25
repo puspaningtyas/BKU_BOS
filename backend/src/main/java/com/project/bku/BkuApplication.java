@@ -16,6 +16,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 		BkuApplication.class,
 		Jsr310JpaConverters.class 
 })
+
 public class BkuApplication extends SpringBootServletInitializer {
 
 	@PostConstruct
