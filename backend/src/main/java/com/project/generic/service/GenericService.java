@@ -1,8 +1,4 @@
-/*
-* ATI - CORE -TPE
-* Transaction Processing Engine(TPE)
-* @Author- V.N.V.L.PRASANNA 
-*/
+
 package com.project.generic.service;
 
 import java.util.List;

@@ -1,4 +1,3 @@
-
 package com.project.generic.dao;
 
 import java.util.List;
