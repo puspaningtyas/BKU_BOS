@@ -1,74 +1,64 @@
-package com.project.bku.model;
+package com.project.bku.payload;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="sekolah")
-public class Sekolah {
-	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SekolahDto {
 	
 	private String namaSekolah;
-	
+
 	private String npsn;
-	
+
 	private String nss;
-	
+
 	private String alamat;
-	
+
 	private String rt;
 	
 	private String rw;
-	
+
 	private String dusun;
-	
+
 	private String desaKelurahan;
-	
+
 	private String kecamatan;
-	
+
 	private String kabupatenKota;
-	
+
 	private String provinsi;
-	
+
 	private String kodePos;
-	
+
 	private String noRekening;
-	
+
 	private String namaBank;
-	
+
 	private String npwp;
-	
+
 	private String email;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "management_sekolah_id")
-	private ManajemenSekolah managementSekolah;
+	public SekolahDto() {
+	}
+
+	public SekolahDto(String namaSekolah, String npsn, String nss, String alamat, String rT, String rW,
+			String dusun, String desaKelurahan, String kecamatan, String kabupatenKota, String provinsi, String kodePos,
+			String noRekening, String namaBank, String npwp, String email) {
+		super();
+		this.namaSekolah = namaSekolah;
+		this.npsn = npsn;
+		this.nss = nss;
+		this.alamat = alamat;
+		this.rt = rT;
+		this.rw = rW;
+		this.dusun = dusun;
+		this.desaKelurahan = desaKelurahan;
+		this.kecamatan = kecamatan;
+		this.kabupatenKota = kabupatenKota;
+		this.provinsi = provinsi;
+		this.kodePos = kodePos;
+		this.noRekening = noRekening;
+		this.namaBank = namaBank;
+		this.npwp = npwp;
+		this.email = email;
+	}
 	
-	public ManajemenSekolah getManagementSekolah() {
-		return managementSekolah;
-	}
-
-	public void setManagementSekolah(ManajemenSekolah managementSekolah) {
-		this.managementSekolah = managementSekolah;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getNamaSekolah() {
 		return namaSekolah;
 	}
@@ -196,5 +186,5 @@ public class Sekolah {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 }

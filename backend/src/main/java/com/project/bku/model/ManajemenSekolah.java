@@ -9,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "management_sekolah")
-public class ManagemenSekolah {
+public class ManajemenSekolah {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +47,7 @@ public class ManagemenSekolah {
 
 	private String nipKepalaUptDisdikbud;
 
+	@JsonIgnore
 	@OneToOne(mappedBy = "managementSekolah")
 	private Sekolah sekolah;
 	

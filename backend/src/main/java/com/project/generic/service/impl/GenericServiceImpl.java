@@ -20,14 +20,9 @@ public class GenericServiceImpl<E, K> implements GenericService<E, K> {
 	@Autowired
 	private GenericDao<E, K> genericDaoImpl;
 
-	public GenericServiceImpl(GenericDao<E, K> genericDao) {
-		this.genericDaoImpl = genericDao;
-	}
-
 	public GenericServiceImpl() {
-
 	}
-
+	
 	@Override
 	public E save(E entity) {
 		if (entity == null) {
