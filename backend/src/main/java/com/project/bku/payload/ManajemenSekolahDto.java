@@ -32,7 +32,7 @@ public class ManajemenSekolahDto {
 
 	private String nipKepalaUptDisdikbud;
 	
-	private String sekolahId;
+	private Long sekolahId;
 
 	public ManajemenSekolahDto() {
 	}
@@ -41,7 +41,7 @@ public class ManajemenSekolahDto {
 			String namaBendahara, String nipBendahara, String alamatRumahKepalaSekolah, String nomorSkKepalaSekolah,
 			Date tanggalSkKepalaSekolah, String nomorSkBendaharaBos, Date tanggalSkBendaharaBos,
 			String namaKetuaTimBosKabupaten, String nipKetuaTimBosKabupaten, String namaKepalaUptDisdikbud,
-			String nipKepalaUptDisdikbud, String sekolahId) {
+			String nipKepalaUptDisdikbud, Long sekolahId) {
 		super();
 		this.namaKepalaSekolah = namaKepalaSekolah;
 		this.nipKepalaSekolah = nipKepalaSekolah;
@@ -172,11 +172,11 @@ public class ManajemenSekolahDto {
 		this.nipKepalaUptDisdikbud = nipKepalaUptDisdikbud;
 	}
 
-	public String getSekolahId() {
+	public Long getSekolahId() {
 		return sekolahId;
 	}
 
-	public void setSekolahId(String sekolahId) {
+	public void setSekolahId(Long sekolahId) {
 		this.sekolahId = sekolahId;
 	}
 	

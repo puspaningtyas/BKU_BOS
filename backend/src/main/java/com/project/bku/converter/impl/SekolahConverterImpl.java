@@ -12,6 +12,7 @@ public class SekolahConverterImpl implements SekolahConverter{
 	@Override
 	public Sekolah toModel(SekolahDto param) {
 		Sekolah result = new Sekolah();
+		result.setId(param.getId());
 		result.setNamaSekolah(param.getNamaSekolah());
 		result.setNpsn(param.getNpsn());
 		result.setNss(param.getNss());
@@ -34,6 +35,7 @@ public class SekolahConverterImpl implements SekolahConverter{
 	@Override
 	public SekolahDto toDto(Sekolah param) {
 		SekolahDto result = new SekolahDto();
+		result.setId(param.getId());
 		result.setNamaSekolah(param.getNamaSekolah());
 		result.setNpsn(param.getNpsn());
 		result.setNss(param.getNss());
