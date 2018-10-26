@@ -14,7 +14,7 @@ import com.project.bku.service.BkuService;
 
 @RestController
 @RequestMapping("/api")
-public class Test {
+public class BkuController {
 
 	@Autowired
 	BkuService bkuServiceImpl;

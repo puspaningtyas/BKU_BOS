@@ -9,10 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.project.generic.model.GenericUserDateAudit;
+
 @Entity
 @Table(name="sekolah")
-public class Sekolah {
+public class Sekolah extends GenericUserDateAudit{
 	
+	private static final long serialVersionUID = -6666342282800547074L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

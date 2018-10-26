@@ -24,7 +24,6 @@ public class SignUpRequest {
     @Size(min=4, max=4)
     private String tahunAktif;
 
-    @NotBlank
     private String sekolah_id;
     
     public String getName() {

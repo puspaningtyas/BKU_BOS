@@ -48,7 +48,8 @@ public class User extends GenericDateAudit {
 	private String tahunAktif;
 
 	@ManyToOne
-	@JoinColumn(name = "sekolah_id", nullable = false)
+//	@JoinColumn(name = "sekolah_id", nullable = false)
+	@JoinColumn(name = "sekolah_id", nullable = true)
 	private Sekolah sekolah;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
