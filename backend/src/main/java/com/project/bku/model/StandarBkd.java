@@ -6,9 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.project.generic.model.GenericUserDateAudit;
+
 @Entity
 @Table(name="standar_bkd")
-public class StandarBkd {
+public class StandarBkd extends GenericUserDateAudit{
+
+	private static final long serialVersionUID = -2964604270483327134L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +37,14 @@ public class StandarBkd {
 	public void setUraian(String uraian) {
 		this.uraian = uraian;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	
 }
