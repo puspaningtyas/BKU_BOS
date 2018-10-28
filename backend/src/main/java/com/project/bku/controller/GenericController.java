@@ -1,6 +1,7 @@
 package com.project.bku.controller;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.project.bku.exception.BadRequestException;
 import com.project.bku.exception.ResourceNotFoundException;
 
 /**
@@ -56,12 +58,20 @@ public class GenericController<T, K> implements Serializable{
 		return new ResponseEntity<T>(result, HttpStatus.OK);
 	}
 	
-	@PutMapping("/{id}")
-	public ResponseEntity<T> update(@RequestBody T entity, @PathVariable(value = "id") K id){
-		jpaRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException(getEntityClass().getSimpleName(), "ID", id));
-		T result = jpaRepository.save(entity);
-		return new ResponseEntity<T>(result, HttpStatus.OK);
+	@SuppressWarnings("unchecked")
+	@PutMapping
+	public ResponseEntity<T> update(@RequestBody T entity) throws IllegalAccessException, NoSuchFieldException, SecurityException{
+		Field f = entity.getClass().getDeclaredField("id"); //NoSuchFieldException, SecurityException
+		f.setAccessible(true);
+		K id = (K) f.get(entity); //IllegalAccessException
+		if (id != null) {
+			jpaRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException(getEntityClass().getSimpleName(), "ID", id));
+			T result = jpaRepository.save(entity);
+			return new ResponseEntity<T>(result, HttpStatus.OK);
+		}else {
+			throw new BadRequestException("Please insert Json object using id");
+		}
 	}
 	
 	@DeleteMapping("/{id}")
