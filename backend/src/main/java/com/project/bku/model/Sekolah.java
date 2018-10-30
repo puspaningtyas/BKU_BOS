@@ -2,8 +2,6 @@ package com.project.bku.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -18,12 +16,9 @@ public class Sekolah extends GenericUserDateAudit{
 	private static final long serialVersionUID = -6666342282800547074L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long npsn;
 	
 	private String namaSekolah;
-	
-	private String npsn;
 	
 	private String nss;
 	
@@ -65,14 +60,6 @@ public class Sekolah extends GenericUserDateAudit{
 		this.managementSekolah = managementSekolah;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getNamaSekolah() {
 		return namaSekolah;
 	}
@@ -81,11 +68,11 @@ public class Sekolah extends GenericUserDateAudit{
 		this.namaSekolah = namaSekolah;
 	}
 
-	public String getNpsn() {
+	public Long getNpsn() {
 		return npsn;
 	}
 
-	public void setNpsn(String npsn) {
+	public void setNpsn(Long npsn) {
 		this.npsn = npsn;
 	}
 

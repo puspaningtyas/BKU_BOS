@@ -2,11 +2,9 @@ package com.project.bku.payload;
 
 public class SekolahDto {
 	
-	private Long id;
+	private Long npsn;
 	
 	private String namaSekolah;
-
-	private String npsn;
 
 	private String nss;
 
@@ -39,11 +37,10 @@ public class SekolahDto {
 	public SekolahDto() {
 	}
 
-	public SekolahDto(Long id, String namaSekolah, String npsn, String nss, String alamat, String rt, String rw,
+	public SekolahDto(Long npsn, String namaSekolah,String nss, String alamat, String rt, String rw,
 			String dusun, String desaKelurahan, String kecamatan, String kabupatenKota, String provinsi, String kodePos,
 			String noRekening, String namaBank, String npwp, String email) {
 		super();
-		this.id = id;
 		this.namaSekolah = namaSekolah;
 		this.npsn = npsn;
 		this.nss = nss;
@@ -62,14 +59,6 @@ public class SekolahDto {
 		this.email = email;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getNamaSekolah() {
 		return namaSekolah;
 	}
@@ -78,11 +67,11 @@ public class SekolahDto {
 		this.namaSekolah = namaSekolah;
 	}
 
-	public String getNpsn() {
+	public Long getNpsn() {
 		return npsn;
 	}
 
-	public void setNpsn(String npsn) {
+	public void setNpsn(Long npsn) {
 		this.npsn = npsn;
 	}
 

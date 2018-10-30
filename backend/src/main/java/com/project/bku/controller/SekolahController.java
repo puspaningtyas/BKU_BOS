@@ -53,8 +53,8 @@ public class SekolahController {
 	
 	@PutMapping
 	public Sekolah update(@RequestBody SekolahDto param) {
-		Sekolah result = sekolahRepository.findById(param.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", param.getId()));
+		Sekolah result = sekolahRepository.findById(param.getNpsn())
+				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", param.getNpsn()));
 		result.setNamaSekolah(param.getNamaSekolah());
 		result.setNpsn(param.getNpsn());
 		result.setNss(param.getNss());
