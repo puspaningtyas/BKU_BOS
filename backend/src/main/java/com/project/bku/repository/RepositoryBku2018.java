@@ -12,4 +12,5 @@ public interface RepositoryBku2018 extends JpaRepository<Bku2018, Long> {
 	
 	@Query("SELECT b FROM Bku2018 b where b.sekolah.npsn =:npsn")
 	List<Bku2018> findAllByNisn(@Param("npsn") Long npsn);
+	
 }
