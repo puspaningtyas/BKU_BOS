@@ -53,7 +53,7 @@ public class BkuServiceImpl implements BkuService {
 
 	@Autowired
 	SekolahRepository sekolahRepository;
-	
+
 	@Autowired
 	Bku2018Converter bku2018ConverterImpl;
 
@@ -117,9 +117,13 @@ public class BkuServiceImpl implements BkuService {
 	@Override
 	public List<BkuDto> getAllBku(UserPrincipal currentUser) {
 		String tahun = currentUser.getTahunAktif();
+		Long npsn = currentUser.getNpsn();
+		if (npsn == null) {
+			throw new BadRequestException("Silahkan tambahkan sekolah anda.");
+		}
 		List<BkuDto> bku = null;
 		if (tahun.equals("2018")) {
-			List<Bku2018> list = repositoryBku2018.findAll();
+			List<Bku2018> list = repositoryBku2018.findAllByNisn(npsn);
 			bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
 		} else if (tahun.equals("2019")) {
 			List<Bku2019> list = repositoryBku2019.findAll();
@@ -160,33 +164,60 @@ public class BkuServiceImpl implements BkuService {
 	@Override
 	public BkuDto save(UserPrincipal currentUser, BkuDto bkuDto) {
 		String tahun = currentUser.getTahunAktif();
+		Long npsn = currentUser.getNpsn();
+		// cek npsn user aktiv
+		if (npsn == null) {
+			throw new BadRequestException("Silahkan tambahkan sekolah anda.");
+		}
+		// get sekolah untuk direferensikan ke new BKU
+		Sekolah sekolah = sekolahRepository.findById(npsn)
+				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "NPSN", bkuDto.getId()));
+		
 		BkuDto dto = null;
 		if (tahun.equals("2018")) {
 			Bku2018 bku = modelMapper.map(bkuDto, Bku2018.class);
-			Sekolah sekolah = sekolahRepository.findById(bkuDto.getNpsn())
-					.orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", bkuDto.getId()));
 			bku.setSekolah(sekolah);
 			dto = modelMapper.map(repositoryBku2018.save(bku), BkuDto.class);
 		} else if (tahun.equals("2019")) {
-			dto = modelMapper.map(repositoryBku2019.save(modelMapper.map(bkuDto, Bku2019.class)), BkuDto.class);
+			Bku2019 bku = modelMapper.map(bkuDto, Bku2019.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2019.save(bku), BkuDto.class);
 		} else if (tahun.equals("2020")) {
-			dto = modelMapper.map(repositoryBku2020.save(modelMapper.map(bkuDto, Bku2020.class)), BkuDto.class);
+			Bku2020 bku = modelMapper.map(bkuDto, Bku2020.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2020.save(bku), BkuDto.class);
 		} else if (tahun.equals("2021")) {
-			dto = modelMapper.map(repositoryBku2021.save(modelMapper.map(bkuDto, Bku2021.class)), BkuDto.class);
+			Bku2021 bku = modelMapper.map(bkuDto, Bku2021.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2021.save(bku), BkuDto.class);
 		} else if (tahun.equals("2022")) {
-			dto = modelMapper.map(repositoryBku2022.save(modelMapper.map(bkuDto, Bku2022.class)), BkuDto.class);
+			Bku2022 bku = modelMapper.map(bkuDto, Bku2022.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2022.save(bku), BkuDto.class);
 		} else if (tahun.equals("2023")) {
-			dto = modelMapper.map(repositoryBku2023.save(modelMapper.map(bkuDto, Bku2023.class)), BkuDto.class);
-		} else if (tahun.equals("2019")) {
-			dto = modelMapper.map(repositoryBku2019.save(modelMapper.map(bkuDto, Bku2019.class)), BkuDto.class);
+			Bku2023 bku = modelMapper.map(bkuDto, Bku2023.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2023.save(bku), BkuDto.class);
+		} else if (tahun.equals("2024")) {
+			Bku2024 bku = modelMapper.map(bkuDto, Bku2024.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2024.save(bku), BkuDto.class);
 		} else if (tahun.equals("2025")) {
-			dto = modelMapper.map(repositoryBku2025.save(modelMapper.map(bkuDto, Bku2025.class)), BkuDto.class);
+			Bku2025 bku = modelMapper.map(bkuDto, Bku2025.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2025.save(bku), BkuDto.class);
 		} else if (tahun.equals("2026")) {
-			dto = modelMapper.map(repositoryBku2026.save(modelMapper.map(bkuDto, Bku2026.class)), BkuDto.class);
+			Bku2026 bku = modelMapper.map(bkuDto, Bku2026.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2026.save(bku), BkuDto.class);
 		} else if (tahun.equals("2027")) {
-			dto = modelMapper.map(repositoryBku2027.save(modelMapper.map(bkuDto, Bku2027.class)), BkuDto.class);
+			Bku2027 bku = modelMapper.map(bkuDto, Bku2027.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2027.save(bku), BkuDto.class);
 		} else if (tahun.equals("2028")) {
-			dto = modelMapper.map(repositoryBku2028.save(modelMapper.map(bkuDto, Bku2028.class)), BkuDto.class);
+			Bku2028 bku = modelMapper.map(bkuDto, Bku2028.class);
+			bku.setSekolah(sekolah);
+			dto = modelMapper.map(repositoryBku2028.save(bku), BkuDto.class);
 		}
 		return dto;
 	}
