@@ -21,9 +21,11 @@ public class UserPrincipal implements UserDetails {
 	private String name;
 
 	private String username;
-	
+
 	private String tahunAktif;
-	
+
+	private Long npsn;
+
 	@JsonIgnore
 	private String email;
 
@@ -32,13 +34,12 @@ public class UserPrincipal implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	
 	public UserPrincipal() {
 		super();
 	}
 
 	public UserPrincipal(Long id, String name, String username, String tahunAktif, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities, Long npsn) {
 		this.id = id;
 		this.name = name;
 		this.username = username;
@@ -46,14 +47,18 @@ public class UserPrincipal implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
+		this.npsn = npsn;
 	}
 
 	public static UserPrincipal create(User user) {
 		List<GrantedAuthority> authorities = user.getRoles().stream()
 				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-
+		Long npsn = null;
+		if (user.getSekolah() != null) {
+			npsn = user.getSekolah().getNpsn();
+		};
 		return new UserPrincipal(user.getId(), user.getName(), user.getUsername(), user.getTahunAktif(), user.getEmail(), user.getPassword(),
-				authorities);
+				authorities, npsn);
 	}
 
 	public Long getId() {
@@ -67,9 +72,13 @@ public class UserPrincipal implements UserDetails {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public String getTahunAktif() {
 		return tahunAktif;
+	}
+
+	public Long getNpsn() {
+		return npsn;
 	}
 
 	@Override
