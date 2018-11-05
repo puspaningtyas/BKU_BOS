@@ -23,7 +23,7 @@ public class UserPrincipal implements UserDetails {
 	private String username;
 	
 	private String tahunAktif;
-
+	
 	@JsonIgnore
 	private String email;
 

@@ -9,12 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "management_sekolah")
 public class ManajemenSekolah {
 
+	private static final String TIMEZONE = "Asia/Jakarta";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -33,10 +36,12 @@ public class ManajemenSekolah {
 
 	private String nomorSkKepalaSekolah;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggalSkKepalaSekolah;
 
 	private String nomorSkBendaharaBos;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggalSkBendaharaBos;
 
 	private String namaKetuaTimBosKabupaten;

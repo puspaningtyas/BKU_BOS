@@ -1,32 +1,22 @@
-package com.project.bku.model;
+package com.project.bku.payload;
 
-import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.bku.model.audit.UserDateAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@MappedSuperclass
-public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
-
-	private static final long serialVersionUID = 6058751200888924794L;
-
+public class BkuDto extends UserDateAuditDto{
+	
 	private static final String TIMEZONE = "Asia/Jakarta";
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	@NotNull
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggal;
 
 	private String noKode;
@@ -54,13 +44,11 @@ public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
 	private String statusPemeriksa;
 
 	private String fileBukti;
-
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "npsn", nullable = false)
-	private Sekolah sekolah;
-
-	public BkuMappedSuperclass() {
+	
+	private Long npsn;
+	
+	public BkuDto() {
+	
 	}
 
 	public Long getId() {
@@ -151,14 +139,6 @@ public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
 		this.kodeBkd = kodeBkd;
 	}
 
-	public Sekolah getSekolah() {
-		return sekolah;
-	}
-
-	public void setSekolah(Sekolah sekolah) {
-		this.sekolah = sekolah;
-	}
-
 	public String getKodeLaporanBos() {
 		return kodeLaporanBos;
 	}
@@ -181,6 +161,16 @@ public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
 
 	public void setFileBukti(String fileBukti) {
 		this.fileBukti = fileBukti;
+	}
+
+	@JsonIgnore
+	@JsonProperty(value = "npsn")
+	public Long getNpsn() {
+		return npsn;
+	}
+
+	public void setNpsn(Long npsn) {
+		this.npsn = npsn;
 	}
 	
 }

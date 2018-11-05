@@ -3,7 +3,7 @@ package com.project.bku.model;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.generic.model.GenericDateAudit;
+import com.project.bku.model.audit.DateAudit;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,7 +16,7 @@ import java.util.Set;
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
 		@UniqueConstraint(columnNames = { "email" }) })
 
-public class User extends GenericDateAudit {
+public class User extends DateAudit {
 
 	private static final long serialVersionUID = 1L;
 
@@ -48,8 +48,7 @@ public class User extends GenericDateAudit {
 	private String tahunAktif;
 
 	@ManyToOne
-//	@JoinColumn(name = "sekolah_id", nullable = false)
-	@JoinColumn(name = "sekolah_id", nullable = true)
+	@JoinColumn(name = "npsn", nullable = true)
 	private Sekolah sekolah;
 	
 	@ManyToMany(fetch = FetchType.LAZY)

@@ -6,11 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.project.generic.model.GenericUserDateAudit;
+import com.project.bku.model.audit.UserDateAudit;
 
 @Entity
 @Table(name="standar_laporan_bos")
-public class StandarLaporanBos extends GenericUserDateAudit{
+public class StandarLaporanBos extends UserDateAudit{
 
 	private static final long serialVersionUID = -2482806146704438407L;
 

@@ -24,7 +24,7 @@ public class SignUpRequest {
     @Size(min=4, max=4)
     private String tahunAktif;
 
-    private String sekolah_id;
+    private String npsn;
     
     public String getName() {
         return name;
@@ -66,11 +66,12 @@ public class SignUpRequest {
 		this.tahunAktif = tahunAktif;
 	}
 
-	public String getSekolah_id() {
-		return sekolah_id;
+	public String getNpsn() {
+		return npsn;
 	}
 
-	public void setSekolah_id(String sekolah_id) {
-		this.sekolah_id = sekolah_id;
+	public void setNpsn(String npsn) {
+		this.npsn = npsn;
 	}
+	
 }
