@@ -45,4 +45,5 @@ public abstract class DateAudit implements Serializable {
 	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 }

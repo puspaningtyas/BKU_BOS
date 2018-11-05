@@ -38,4 +38,5 @@ public class UserDateAudit extends DateAudit implements Serializable {
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
 }
