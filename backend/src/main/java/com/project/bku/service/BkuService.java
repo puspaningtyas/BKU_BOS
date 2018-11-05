@@ -1,8 +1,18 @@
 package com.project.bku.service;
 
-import com.project.bku.model.BkuMappedSuperclass;
-import com.project.generic.service.GenericService;
+import java.util.List;
 
-public interface BkuService extends GenericService<BkuMappedSuperclass, Long>{
+import com.project.bku.payload.BkuDto;
+import com.project.bku.security.UserPrincipal;
 
+public interface BkuService{
+	public BkuDto getById(UserPrincipal currentUser, Long id);
+	
+	public List<BkuDto> getAllBku(UserPrincipal currentUser);
+	
+	public BkuDto save(UserPrincipal currentUser, BkuDto bkuDto);
+	
+	public BkuDto update(UserPrincipal currentUser, BkuDto bkuDto);
+	
+	public void delete(UserPrincipal currentUser, Long id);
 }
