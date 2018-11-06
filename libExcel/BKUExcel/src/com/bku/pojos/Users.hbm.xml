@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 1, 2018 9:41:35 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 6, 2018 11:13:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.bku.pojos.Users" table="users" schema="public" optimistic-lock="version">
         <id name="id" type="long">
@@ -9,13 +9,13 @@
             <generator class="assigned" />
         </id>
         <many-to-one name="sekolah" class="com.bku.pojos.Sekolah" fetch="select">
-            <column name="sekolah_id" />
+            <column name="npsn" />
         </many-to-one>
         <property name="createdAt" type="timestamp">
-            <column name="created_at" length="29" not-null="true" />
+            <column name="created_at" length="29" />
         </property>
         <property name="updatedAt" type="timestamp">
-            <column name="updated_at" length="29" not-null="true" />
+            <column name="updated_at" length="29" />
         </property>
         <property name="email" type="string">
             <column name="email" length="40" unique="true" />

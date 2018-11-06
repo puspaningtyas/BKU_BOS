@@ -1,5 +1,5 @@
 package com.bku.pojos;
-// Generated Nov 1, 2018 9:41:32 PM by Hibernate Tools 4.3.1
+// Generated Nov 6, 2018 11:13:09 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -22,10 +22,8 @@ public class StandarLaporanBos  implements java.io.Serializable {
     }
 
 	
-    public StandarLaporanBos(long id, Date createdAt, Date updatedAt) {
+    public StandarLaporanBos(long id) {
         this.id = id;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
     public StandarLaporanBos(long id, Date createdAt, Date updatedAt, Long createdBy, Long updatedBy, String kode, String uraian) {
        this.id = id;

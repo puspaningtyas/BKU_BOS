@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 1, 2018 9:41:35 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 6, 2018 11:13:12 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.bku.pojos.Sekolah" table="sekolah" schema="public" optimistic-lock="version">
         <id name="npsn" type="long">
@@ -12,10 +12,10 @@
             <column name="management_sekolah_id" />
         </many-to-one>
         <property name="createdAt" type="timestamp">
-            <column name="created_at" length="29" not-null="true" />
+            <column name="created_at" length="29" />
         </property>
         <property name="updatedAt" type="timestamp">
-            <column name="updated_at" length="29" not-null="true" />
+            <column name="updated_at" length="29" />
         </property>
         <property name="createdBy" type="java.lang.Long">
             <column name="created_by" />
@@ -68,77 +68,77 @@
         <property name="rw" type="string">
             <column name="rw" />
         </property>
-        <set name="bku2026s" table="bku2026" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2026" />
-        </set>
-        <set name="bku2019s" table="bku2019" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2019" />
-        </set>
-        <set name="bku2020s" table="bku2020" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2020" />
-        </set>
-        <set name="bku2025s" table="bku2025" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2025" />
-        </set>
-        <set name="bku2028s" table="bku2028" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2028" />
-        </set>
-        <set name="bku2024s" table="bku2024" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2024" />
-        </set>
-        <set name="bku2027s" table="bku2027" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2027" />
-        </set>
-        <set name="bku2021s" table="bku2021" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2021" />
-        </set>
-        <set name="bku2023s" table="bku2023" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="sekolah_id" not-null="true" />
-            </key>
-            <one-to-many class="com.bku.pojos.Bku2023" />
-        </set>
         <set name="bku2022s" table="bku2022" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sekolah_id" not-null="true" />
+                <column name="npsn" not-null="true" />
             </key>
             <one-to-many class="com.bku.pojos.Bku2022" />
         </set>
+        <set name="bku2025s" table="bku2025" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2025" />
+        </set>
+        <set name="bku2021s" table="bku2021" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2021" />
+        </set>
+        <set name="bku2019s" table="bku2019" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2019" />
+        </set>
+        <set name="bku2023s" table="bku2023" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2023" />
+        </set>
+        <set name="bku2027s" table="bku2027" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2027" />
+        </set>
+        <set name="bku2026s" table="bku2026" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2026" />
+        </set>
         <set name="userses" table="users" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sekolah_id" />
+                <column name="npsn" />
             </key>
             <one-to-many class="com.bku.pojos.Users" />
         </set>
         <set name="bku2018s" table="bku2018" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="sekolah_id" not-null="true" />
+                <column name="npsn" not-null="true" />
             </key>
             <one-to-many class="com.bku.pojos.Bku2018" />
+        </set>
+        <set name="bku2020s" table="bku2020" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2020" />
+        </set>
+        <set name="bku2028s" table="bku2028" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2028" />
+        </set>
+        <set name="bku2024s" table="bku2024" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="npsn" not-null="true" />
+            </key>
+            <one-to-many class="com.bku.pojos.Bku2024" />
         </set>
     </class>
 </hibernate-mapping>

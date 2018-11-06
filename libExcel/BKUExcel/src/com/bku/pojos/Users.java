@@ -1,5 +1,5 @@
 package com.bku.pojos;
-// Generated Nov 1, 2018 9:41:32 PM by Hibernate Tools 4.3.1
+// Generated Nov 6, 2018 11:13:09 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -27,10 +27,8 @@ public class Users  implements java.io.Serializable {
     }
 
 	
-    public Users(long id, Date createdAt, Date updatedAt) {
+    public Users(long id) {
         this.id = id;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
     public Users(long id, Sekolah sekolah, Date createdAt, Date updatedAt, String email, String name, String password, String tahunAktif, String username, Set<Roles> roleses) {
        this.id = id;

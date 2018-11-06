@@ -41,24 +41,24 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="bku" match-schema="public"/>
+  <table-filter match-name="bku2020"/>
+  <table-filter match-name="bku2019"/>
+  <table-filter match-name="standar_bkd"/>
+  <table-filter match-name="standar_kementrian"/>
+  <table-filter match-name="standar_akreditasi"/>
+  <table-filter match-name="standar_laporan_bos"/>
+  <table-filter match-name="sekolah"/>
+  <table-filter match-name="bku2021"/>
   <table-filter match-name="bku2023"/>
   <table-filter match-name="bku2026"/>
-  <table-filter match-name="standar_bkd"/>
-  <table-filter match-name="bku2022"/>
-  <table-filter match-name="bku2018"/>
-  <table-filter match-name="sekolah"/>
-  <table-filter match-name="bku2027"/>
-  <table-filter match-name="standar_laporan_bos"/>
-  <table-filter match-name="standar_akreditasi"/>
-  <table-filter match-name="user_roles"/>
-  <table-filter match-name="users"/>
-  <table-filter match-name="bku2024"/>
-  <table-filter match-name="standar_kementrian"/>
-  <table-filter match-name="bku2028"/>
-  <table-filter match-name="management_sekolah"/>
-  <table-filter match-name="bku2021"/>
-  <table-filter match-name="roles"/>
   <table-filter match-name="bku2025"/>
-  <table-filter match-name="bku2019"/>
-  <table-filter match-name="bku2020"/>
+  <table-filter match-name="users"/>
+  <table-filter match-name="bku2018"/>
+  <table-filter match-name="roles"/>
+  <table-filter match-name="bku2028"/>
+  <table-filter match-name="bku2022"/>
+  <table-filter match-name="management_sekolah"/>
+  <table-filter match-name="bku2027"/>
+  <table-filter match-name="user_roles"/>
+  <table-filter match-name="bku2024"/>
 </hibernate-reverse-engineering>

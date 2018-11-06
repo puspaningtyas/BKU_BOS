@@ -1,5 +1,5 @@
 package com.bku.pojos;
-// Generated Nov 1, 2018 9:41:32 PM by Hibernate Tools 4.3.1
+// Generated Nov 6, 2018 11:13:09 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -34,11 +34,10 @@ public class Bku2021  implements java.io.Serializable {
     }
 
 	
-    public Bku2021(long id, Sekolah sekolah, Date createdAt, Date updatedAt) {
+    public Bku2021(long id, Sekolah sekolah, Date tanggal) {
         this.id = id;
         this.sekolah = sekolah;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.tanggal = tanggal;
     }
     public Bku2021(long id, Sekolah sekolah, Date createdAt, Date updatedAt, Long createdBy, Long updatedBy, String fileBukti, String kodeAkreditasi, String kodeBkd, String kodeKementrian, String kodeLaporanBos, String noBukti, String noKode, Integer penerimaan, Integer pengeluaran, String statusPemeriksa, Date tanggal, Date tanggalPelunasan, String uraian) {
        this.id = id;

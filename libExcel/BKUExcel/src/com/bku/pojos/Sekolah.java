@@ -1,5 +1,5 @@
 package com.bku.pojos;
-// Generated Nov 1, 2018 9:41:32 PM by Hibernate Tools 4.3.1
+// Generated Nov 6, 2018 11:13:09 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -33,29 +33,27 @@ public class Sekolah  implements java.io.Serializable {
      private String provinsi;
      private String rt;
      private String rw;
-     private Set<Bku2026> bku2026s = new HashSet<Bku2026>(0);
-     private Set<Bku2019> bku2019s = new HashSet<Bku2019>(0);
-     private Set<Bku2020> bku2020s = new HashSet<Bku2020>(0);
-     private Set<Bku2025> bku2025s = new HashSet<Bku2025>(0);
-     private Set<Bku2028> bku2028s = new HashSet<Bku2028>(0);
-     private Set<Bku2024> bku2024s = new HashSet<Bku2024>(0);
-     private Set<Bku2027> bku2027s = new HashSet<Bku2027>(0);
-     private Set<Bku2021> bku2021s = new HashSet<Bku2021>(0);
-     private Set<Bku2023> bku2023s = new HashSet<Bku2023>(0);
      private Set<Bku2022> bku2022s = new HashSet<Bku2022>(0);
+     private Set<Bku2025> bku2025s = new HashSet<Bku2025>(0);
+     private Set<Bku2021> bku2021s = new HashSet<Bku2021>(0);
+     private Set<Bku2019> bku2019s = new HashSet<Bku2019>(0);
+     private Set<Bku2023> bku2023s = new HashSet<Bku2023>(0);
+     private Set<Bku2027> bku2027s = new HashSet<Bku2027>(0);
+     private Set<Bku2026> bku2026s = new HashSet<Bku2026>(0);
      private Set<Users> userses = new HashSet<Users>(0);
      private Set<Bku2018> bku2018s = new HashSet<Bku2018>(0);
+     private Set<Bku2020> bku2020s = new HashSet<Bku2020>(0);
+     private Set<Bku2028> bku2028s = new HashSet<Bku2028>(0);
+     private Set<Bku2024> bku2024s = new HashSet<Bku2024>(0);
 
     public Sekolah() {
     }
 
 	
-    public Sekolah(long npsn, Date createdAt, Date updatedAt) {
+    public Sekolah(long npsn) {
         this.npsn = npsn;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
-    public Sekolah(long npsn, ManagementSekolah managementSekolah, Date createdAt, Date updatedAt, Long createdBy, Long updatedBy, String alamat, String desaKelurahan, String dusun, String email, String kabupatenKota, String kecamatan, String kodePos, String namaBank, String namaSekolah, String noRekening, String npwp, String nss, String provinsi, String rt, String rw, Set<Bku2026> bku2026s, Set<Bku2019> bku2019s, Set<Bku2020> bku2020s, Set<Bku2025> bku2025s, Set<Bku2028> bku2028s, Set<Bku2024> bku2024s, Set<Bku2027> bku2027s, Set<Bku2021> bku2021s, Set<Bku2023> bku2023s, Set<Bku2022> bku2022s, Set<Users> userses, Set<Bku2018> bku2018s) {
+    public Sekolah(long npsn, ManagementSekolah managementSekolah, Date createdAt, Date updatedAt, Long createdBy, Long updatedBy, String alamat, String desaKelurahan, String dusun, String email, String kabupatenKota, String kecamatan, String kodePos, String namaBank, String namaSekolah, String noRekening, String npwp, String nss, String provinsi, String rt, String rw, Set<Bku2022> bku2022s, Set<Bku2025> bku2025s, Set<Bku2021> bku2021s, Set<Bku2019> bku2019s, Set<Bku2023> bku2023s, Set<Bku2027> bku2027s, Set<Bku2026> bku2026s, Set<Users> userses, Set<Bku2018> bku2018s, Set<Bku2020> bku2020s, Set<Bku2028> bku2028s, Set<Bku2024> bku2024s) {
        this.npsn = npsn;
        this.managementSekolah = managementSekolah;
        this.createdAt = createdAt;
@@ -77,18 +75,18 @@ public class Sekolah  implements java.io.Serializable {
        this.provinsi = provinsi;
        this.rt = rt;
        this.rw = rw;
-       this.bku2026s = bku2026s;
-       this.bku2019s = bku2019s;
-       this.bku2020s = bku2020s;
-       this.bku2025s = bku2025s;
-       this.bku2028s = bku2028s;
-       this.bku2024s = bku2024s;
-       this.bku2027s = bku2027s;
-       this.bku2021s = bku2021s;
-       this.bku2023s = bku2023s;
        this.bku2022s = bku2022s;
+       this.bku2025s = bku2025s;
+       this.bku2021s = bku2021s;
+       this.bku2019s = bku2019s;
+       this.bku2023s = bku2023s;
+       this.bku2027s = bku2027s;
+       this.bku2026s = bku2026s;
        this.userses = userses;
        this.bku2018s = bku2018s;
+       this.bku2020s = bku2020s;
+       this.bku2028s = bku2028s;
+       this.bku2024s = bku2024s;
     }
    
     public long getNpsn() {
@@ -238,26 +236,12 @@ public class Sekolah  implements java.io.Serializable {
     public void setRw(String rw) {
         this.rw = rw;
     }
-    public Set<Bku2026> getBku2026s() {
-        return this.bku2026s;
+    public Set<Bku2022> getBku2022s() {
+        return this.bku2022s;
     }
     
-    public void setBku2026s(Set<Bku2026> bku2026s) {
-        this.bku2026s = bku2026s;
-    }
-    public Set<Bku2019> getBku2019s() {
-        return this.bku2019s;
-    }
-    
-    public void setBku2019s(Set<Bku2019> bku2019s) {
-        this.bku2019s = bku2019s;
-    }
-    public Set<Bku2020> getBku2020s() {
-        return this.bku2020s;
-    }
-    
-    public void setBku2020s(Set<Bku2020> bku2020s) {
-        this.bku2020s = bku2020s;
+    public void setBku2022s(Set<Bku2022> bku2022s) {
+        this.bku2022s = bku2022s;
     }
     public Set<Bku2025> getBku2025s() {
         return this.bku2025s;
@@ -266,33 +250,19 @@ public class Sekolah  implements java.io.Serializable {
     public void setBku2025s(Set<Bku2025> bku2025s) {
         this.bku2025s = bku2025s;
     }
-    public Set<Bku2028> getBku2028s() {
-        return this.bku2028s;
-    }
-    
-    public void setBku2028s(Set<Bku2028> bku2028s) {
-        this.bku2028s = bku2028s;
-    }
-    public Set<Bku2024> getBku2024s() {
-        return this.bku2024s;
-    }
-    
-    public void setBku2024s(Set<Bku2024> bku2024s) {
-        this.bku2024s = bku2024s;
-    }
-    public Set<Bku2027> getBku2027s() {
-        return this.bku2027s;
-    }
-    
-    public void setBku2027s(Set<Bku2027> bku2027s) {
-        this.bku2027s = bku2027s;
-    }
     public Set<Bku2021> getBku2021s() {
         return this.bku2021s;
     }
     
     public void setBku2021s(Set<Bku2021> bku2021s) {
         this.bku2021s = bku2021s;
+    }
+    public Set<Bku2019> getBku2019s() {
+        return this.bku2019s;
+    }
+    
+    public void setBku2019s(Set<Bku2019> bku2019s) {
+        this.bku2019s = bku2019s;
     }
     public Set<Bku2023> getBku2023s() {
         return this.bku2023s;
@@ -301,12 +271,19 @@ public class Sekolah  implements java.io.Serializable {
     public void setBku2023s(Set<Bku2023> bku2023s) {
         this.bku2023s = bku2023s;
     }
-    public Set<Bku2022> getBku2022s() {
-        return this.bku2022s;
+    public Set<Bku2027> getBku2027s() {
+        return this.bku2027s;
     }
     
-    public void setBku2022s(Set<Bku2022> bku2022s) {
-        this.bku2022s = bku2022s;
+    public void setBku2027s(Set<Bku2027> bku2027s) {
+        this.bku2027s = bku2027s;
+    }
+    public Set<Bku2026> getBku2026s() {
+        return this.bku2026s;
+    }
+    
+    public void setBku2026s(Set<Bku2026> bku2026s) {
+        this.bku2026s = bku2026s;
     }
     public Set<Users> getUserses() {
         return this.userses;
@@ -321,6 +298,27 @@ public class Sekolah  implements java.io.Serializable {
     
     public void setBku2018s(Set<Bku2018> bku2018s) {
         this.bku2018s = bku2018s;
+    }
+    public Set<Bku2020> getBku2020s() {
+        return this.bku2020s;
+    }
+    
+    public void setBku2020s(Set<Bku2020> bku2020s) {
+        this.bku2020s = bku2020s;
+    }
+    public Set<Bku2028> getBku2028s() {
+        return this.bku2028s;
+    }
+    
+    public void setBku2028s(Set<Bku2028> bku2028s) {
+        this.bku2028s = bku2028s;
+    }
+    public Set<Bku2024> getBku2024s() {
+        return this.bku2024s;
+    }
+    
+    public void setBku2024s(Set<Bku2024> bku2024s) {
+        this.bku2024s = bku2024s;
     }
 
 
