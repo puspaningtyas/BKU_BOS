@@ -29,8 +29,8 @@ public class ManagementSekolahController {
 
 	@PostMapping
 	public Sekolah save(@RequestBody ManajemenSekolahDto param) {
-		Sekolah sekolah = sekolahRepository.findById(param.getSekolahId())
-				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", param.getSekolahId()));
+		Sekolah sekolah = sekolahRepository.findById(param.getNpsn())
+				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", param.getNpsn()));
 		ManajemenSekolah result = manajemenSekolahConverterImpl.toModel(param);
 		/**
 		 * Jika belum ada.

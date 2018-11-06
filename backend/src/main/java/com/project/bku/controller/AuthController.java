@@ -87,8 +87,8 @@ public class AuthController {
 				.orElseThrow(() -> new AppException("User Role not set."));
 
 		user.setRoles(Collections.singleton(userRole));
-		if (signUpRequest.getSekolah_id() != null) {
-			Sekolah sekolah = sekolahRepository.findById(Long.valueOf(signUpRequest.getSekolah_id()))
+		if (signUpRequest.getNpsn() != null) {
+			Sekolah sekolah = sekolahRepository.findById(Long.valueOf(signUpRequest.getNpsn()))
 					.orElseThrow(() -> new AppException("Sekolah tidak ditemukan."));
 			user.setSekolah(sekolah);
 		}

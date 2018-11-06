@@ -1,21 +1,23 @@
 package com.project.bku.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.project.generic.model.GenericUserDateAudit;
+import com.project.bku.model.audit.UserDateAudit;
 
 @Entity
 @Table(name="sekolah")
-public class Sekolah extends GenericUserDateAudit{
+public class Sekolah extends UserDateAudit{
 	
 	private static final long serialVersionUID = -6666342282800547074L;
 
 	@Id
+	@Column(name = "npsn")
     private Long npsn;
 	
 	private String namaSekolah;

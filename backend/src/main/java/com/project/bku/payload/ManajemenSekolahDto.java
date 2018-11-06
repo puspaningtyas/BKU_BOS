@@ -2,8 +2,12 @@ package com.project.bku.payload;
 
 import java.util.Date;
 
-public class ManajemenSekolahDto {
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+public class ManajemenSekolahDto {
+	
+	private static final String TIMEZONE = "Asia/Jakarta";
+	
 	private String namaKepalaSekolah;
 
 	private String nipKepalaSekolah;
@@ -18,10 +22,12 @@ public class ManajemenSekolahDto {
 
 	private String nomorSkKepalaSekolah;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggalSkKepalaSekolah;
 
 	private String nomorSkBendaharaBos;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggalSkBendaharaBos;
 
 	private String namaKetuaTimBosKabupaten;
@@ -32,7 +38,7 @@ public class ManajemenSekolahDto {
 
 	private String nipKepalaUptDisdikbud;
 	
-	private Long sekolahId;
+	private Long npsn;
 
 	public ManajemenSekolahDto() {
 	}
@@ -41,7 +47,7 @@ public class ManajemenSekolahDto {
 			String namaBendahara, String nipBendahara, String alamatRumahKepalaSekolah, String nomorSkKepalaSekolah,
 			Date tanggalSkKepalaSekolah, String nomorSkBendaharaBos, Date tanggalSkBendaharaBos,
 			String namaKetuaTimBosKabupaten, String nipKetuaTimBosKabupaten, String namaKepalaUptDisdikbud,
-			String nipKepalaUptDisdikbud, Long sekolahId) {
+			String nipKepalaUptDisdikbud, Long npsn) {
 		super();
 		this.namaKepalaSekolah = namaKepalaSekolah;
 		this.nipKepalaSekolah = nipKepalaSekolah;
@@ -57,7 +63,7 @@ public class ManajemenSekolahDto {
 		this.nipKetuaTimBosKabupaten = nipKetuaTimBosKabupaten;
 		this.namaKepalaUptDisdikbud = namaKepalaUptDisdikbud;
 		this.nipKepalaUptDisdikbud = nipKepalaUptDisdikbud;
-		this.sekolahId = sekolahId;
+		this.npsn = npsn;
 	}
 
 	public String getNamaKepalaSekolah() {
@@ -172,12 +178,12 @@ public class ManajemenSekolahDto {
 		this.nipKepalaUptDisdikbud = nipKepalaUptDisdikbud;
 	}
 
-	public Long getSekolahId() {
-		return sekolahId;
+	public Long getNpsn() {
+		return npsn;
 	}
 
-	public void setSekolahId(Long sekolahId) {
-		this.sekolahId = sekolahId;
+	public void setNpsn(Long npsn) {
+		this.npsn = npsn;
 	}
 	
 	

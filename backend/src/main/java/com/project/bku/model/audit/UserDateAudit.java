@@ -1,4 +1,4 @@
-package com.project.generic.model;
+package com.project.bku.model.audit;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MappedSuperclass
 @JsonIgnoreProperties(value = { "createdBy", "updatedBy" }, allowGetters = true)
-public class GenericUserDateAudit extends GenericDateAudit implements Serializable {
+public class UserDateAudit extends DateAudit implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,4 +38,5 @@ public class GenericUserDateAudit extends GenericDateAudit implements Serializab
 	public void setUpdatedBy(Long updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
 }

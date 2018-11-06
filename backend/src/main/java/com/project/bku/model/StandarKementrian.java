@@ -6,11 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.project.generic.model.GenericUserDateAudit;
+import com.project.bku.model.audit.UserDateAudit;
 
 @Entity
 @Table(name="standar_kementrian")
-public class StandarKementrian extends GenericUserDateAudit{
+public class StandarKementrian extends UserDateAudit{
 	
 	private static final long serialVersionUID = 2988019945720151488L;
 

@@ -1,5 +1,6 @@
-package com.project.generic.model;
+package com.project.bku.model.audit;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,16 +14,20 @@ import java.time.Instant;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
-public abstract class GenericDateAudit implements Serializable {
+public abstract class DateAudit implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String TIMEZONE = "Asia/Jakarta";
+	
 	@CreatedDate
-	@Column(nullable = false, updatable = false)
+	@Column(updatable = false)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=TIMEZONE)
 	private Instant createdAt;
 
 	@LastModifiedDate
-	@Column(nullable = false)
+	@Column
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone=TIMEZONE)
 	private Instant updatedAt;
 
 	public Instant getCreatedAt() {
@@ -40,4 +45,5 @@ public abstract class GenericDateAudit implements Serializable {
 	public void setUpdatedAt(Instant updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 }

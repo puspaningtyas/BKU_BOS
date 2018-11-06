@@ -9,20 +9,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.project.generic.model.GenericUserDateAudit;
-
-//namaFileUniqe
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.bku.model.audit.UserDateAudit;
 
 @MappedSuperclass
-public abstract class BkuMappedSuperclass extends GenericUserDateAudit implements Serializable{
+public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6058751200888924794L;
+
+	private static final String TIMEZONE = "Asia/Jakarta";
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
+	@NotNull
 	private Date tanggal;
 
 	private String noKode;
@@ -36,6 +40,7 @@ public abstract class BkuMappedSuperclass extends GenericUserDateAudit implement
 
 	private Integer pengeluaran;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
 	private Date tanggalPelunasan;
 
 	private String kodeAkreditasi;
@@ -48,10 +53,11 @@ public abstract class BkuMappedSuperclass extends GenericUserDateAudit implement
 
 	private String statusPemeriksa;
 
-	private String fileBukti;//tanggalupload_tanggalkegiatan_idsekolah
+	private String fileBukti;
 
+	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "sekolah_id", nullable = false)
+	@JoinColumn(name = "npsn", nullable = false)
 	private Sekolah sekolah;
 
 	public BkuMappedSuperclass() {
