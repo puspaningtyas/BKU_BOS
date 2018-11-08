@@ -5,6 +5,9 @@
  */
 package com.bku.xls;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  *
  * @author user only
@@ -14,4 +17,8 @@ public class BKUConverter {
     public BKUConverter() {
     }
     
+    public ArrayList<Bku> readExcel(File excel){
+     
+        return null;
+    }
 }
