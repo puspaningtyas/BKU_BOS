@@ -14,7 +14,7 @@ public class BkuHelper {
     public BkuHelper() {
     }
     
-    public void save(){
+    public void save(Bku barisDataBKU){
         
     }
     
