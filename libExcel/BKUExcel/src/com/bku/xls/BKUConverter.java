@@ -8,6 +8,7 @@ package com.bku.xls;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,8 +67,6 @@ public class BKUConverter {
             }
             // read line of report
             while (!endOfReport) {
-                // set Bku object
-                Bku bku = new Bku();
                 // set row object
                 Row row = sheet.getRow(rowIndex);
                 //read debit or credit column
@@ -80,9 +79,20 @@ public class BKUConverter {
                 String uraian;
                 Cell uraianCell;
                 // cek null value
+                
                 if (debit != 0 || credit != 0) {
+                    // value credit atau debit tidak null
+                    //baca tanggal
+                    Cell dateCell = row.getCell(DATE_COLUMN);
+                    Date date = dateCell.getDateCellValue();
+                    // set Bku object
+                    Bku bku = new Bku();
                     bku.setPengeluaran(debitint);
                     bku.setPenerimaan(creditint);
+                    bku.setTanggal(date);
+                    
+                    // tambahkan ke list
+                    list.add(bku);
                 }
                 //increase row index
                 rowIndex++;
@@ -91,8 +101,9 @@ public class BKUConverter {
                 uraianCell = row.getCell(URAIAN_COLUMN);
                 uraian = uraianCell.getStringCellValue();
                 uraian = uraian.toLowerCase();
-                if(uraian.contains("jumlah"))
-                    endOfReport=true;
+                if (uraian.contains("jumlah")) {
+                    endOfReport = true;
+                }
             };
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
