@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
@@ -19,7 +20,8 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @author user only
  */
 public class BKUConverter {
-
+    private long npsn;
+    
     public BKUConverter() {
     }
 
@@ -31,12 +33,31 @@ public class BKUConverter {
 
             // Retrieving the number of sheets in the Workbook
             System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
-
+            // get first sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            // get npsn
+            //    set to npsn active cell
+            
+            
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return list;
+    }
+
+    /**
+     * @return the npsn
+     */
+    public long getNpsn() {
+        return npsn;
+    }
+
+    /**
+     * @param npsn the npsn to set
+     */
+    public void setNpsn(long npsn) {
+        this.npsn = npsn;
     }
 }
