@@ -34,8 +34,9 @@ public class BKUConverter {
         // read npsn
         readNpsn(excel);
         // npsn not found
-        if(npsn==-1)
+        if (npsn == -1) {
             return null;
+        }
         // create bku list
         ArrayList<Bku> list = null;
         try {
@@ -43,10 +44,14 @@ public class BKUConverter {
             Workbook workbook = WorkbookFactory.create(excel);
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
-            // get npsn
-            //    set to npsn active cell
-            Iterator<Row> iterator = sheet.iterator();
-
+            // go to row bku
+            // chek month of report
+            if(isJanuaryReport(excel)){
+                // january report
+                
+            } else{
+                // non january report
+            }
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
@@ -75,7 +80,7 @@ public class BKUConverter {
             if (cell.getCellType() == CellType.NUMERIC) {
                 double hasil = cell.getNumericCellValue();
                 npsn = (long) hasil;
-            } else if (cell.getCellType()==CellType.STRING){
+            } else if (cell.getCellType() == CellType.STRING) {
                 String hasil = cell.getStringCellValue();
                 npsn = Long.parseLong(hasil);
             }
@@ -85,6 +90,31 @@ public class BKUConverter {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return npsn;
+    }
+
+    public boolean isJanuaryReport(File excel) {
+        boolean result = false;
+        try {
+
+            // Creating a Workbook from an Excel file (.xls or .xlsx)
+            Workbook workbook = WorkbookFactory.create(excel);
+            // get first sheet
+            Sheet sheet = workbook.getSheetAt(0);
+            // get npsn
+            //    set to npsn active cell
+            Row row = sheet.getRow(9);
+            Cell cell = row.getCell(3);
+            String hasil = cell.getStringCellValue();
+            hasil = hasil.toLowerCase();
+            if(hasil.contains("desember")){
+                result=true;
+            } 
+        } catch (IOException ex) {
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EncryptedDocumentException ex) {
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
     }
 
     /**
