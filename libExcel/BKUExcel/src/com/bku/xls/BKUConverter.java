@@ -44,13 +44,16 @@ public class BKUConverter {
             Workbook workbook = WorkbookFactory.create(excel);
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
-            // go to row bku
+            int rowIndex=0;
             // chek month of report
             if(isJanuaryReport(excel)){
                 // january report
-                
+                // first row
+                rowIndex=9;
             } else{
                 // non january report
+                // first row
+                rowIndex=10;
             }
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
