@@ -12,6 +12,8 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -29,13 +31,16 @@ public class BKUConverter {
     }
 
     public ArrayList<Bku> readExcel(File excel) {
+        // read npsn
+        readNpsn(excel);
+        // npsn not found
+        if(npsn==-1)
+            return null;
+        // create bku list
         ArrayList<Bku> list = null;
         try {
             // Creating a Workbook from an Excel file (.xls or .xlsx)
             Workbook workbook = WorkbookFactory.create(excel);
-
-            // Retrieving the number of sheets in the Workbook
-            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
             // get npsn
@@ -61,14 +66,19 @@ public class BKUConverter {
         try {
             // Creating a Workbook from an Excel file (.xls or .xlsx)
             Workbook workbook = WorkbookFactory.create(excel);
-            
-            // Retrieving the number of sheets in the Workbook
-            System.out.println("Workbook has " + workbook.getNumberOfSheets() + " Sheets : ");
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
             // get npsn
             //    set to npsn active cell
-            Iterator<Row> iterator = sheet.iterator();
+            Row row = sheet.getRow(4);
+            Cell cell = row.getCell(9);
+            if (cell.getCellType() == CellType.NUMERIC) {
+                double hasil = cell.getNumericCellValue();
+                npsn = (long) hasil;
+            } else if (cell.getCellType()==CellType.STRING){
+                String hasil = cell.getStringCellValue();
+                npsn = Long.parseLong(hasil);
+            }
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
