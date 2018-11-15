@@ -24,10 +24,15 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @author user only
  */
 public class BKUConverter {
-    public static final int FIRST_ROW_JANUARY_REPORT=9;
-    public static final int DEBIT_COLUMN=4;
-    public static final int CREDIT_COLUMN=5;
-    
+
+    public static final int FIRST_ROW_JANUARY_REPORT = 9;
+    public static final int DATE_COLUMN = 0;
+    public static final int NO_KODE_COLUMN = 1;
+    public static final int NO_BUKTI_COLUMN = 2;
+    public static final int URAIAN_COLUMN = 3;
+    public static final int DEBIT_COLUMN = 4;
+    public static final int CREDIT_COLUMN = 5;
+
     private long npsn;
 
     public BKUConverter() {
@@ -47,20 +52,20 @@ public class BKUConverter {
             Workbook workbook = WorkbookFactory.create(excel);
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
-            int rowIndex=0;
-            boolean endOfReport=false;
+            int rowIndex = 0;
+            boolean endOfReport = false;
             // chek month of report
-            if(isJanuaryReport(excel)){
+            if (isJanuaryReport(excel)) {
                 // january report
                 // first row
-                rowIndex=FIRST_ROW_JANUARY_REPORT;
-            } else{
+                rowIndex = FIRST_ROW_JANUARY_REPORT;
+            } else {
                 // non january report
                 // first row
-                rowIndex=FIRST_ROW_JANUARY_REPORT+1;
+                rowIndex = FIRST_ROW_JANUARY_REPORT + 1;
             }
             // read line of report
-            do{
+            while (!endOfReport) {
                 // set Bku object
                 Bku bku = new Bku();
                 // set row object
@@ -68,18 +73,27 @@ public class BKUConverter {
                 //read debit or credit column
                 Cell debitCell = row.getCell(DEBIT_COLUMN);
                 double debit = debitCell.getNumericCellValue();
-                int debitint = (int)debit;
+                int debitint = (int) debit;
                 Cell creditCell = row.getCell(CREDIT_COLUMN);
                 double credit = creditCell.getNumericCellValue();
-                int creditint= (int)credit;
+                int creditint = (int) credit;
+                String uraian;
+                Cell uraianCell;
                 // cek null value
-                if(debit!=0 || credit!=0){
+                if (debit != 0 || credit != 0) {
                     bku.setPengeluaran(debitint);
                     bku.setPenerimaan(creditint);
                 }
                 //increase row index
                 rowIndex++;
-            }while(!endOfReport);
+                // cek end of file
+                row = sheet.getRow(rowIndex);
+                uraianCell = row.getCell(URAIAN_COLUMN);
+                uraian = uraianCell.getStringCellValue();
+                uraian = uraian.toLowerCase();
+                if(uraian.contains("jumlah"))
+                    endOfReport=true;
+            };
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
@@ -134,9 +148,9 @@ public class BKUConverter {
             Cell cell = row.getCell(3);
             String hasil = cell.getStringCellValue();
             hasil = hasil.toLowerCase();
-            if(hasil.contains("desember")){
-                result=true;
-            } 
+            if (hasil.contains("desember")) {
+                result = true;
+            }
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
