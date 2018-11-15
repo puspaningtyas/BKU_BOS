@@ -24,7 +24,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  * @author user only
  */
 public class BKUConverter {
-
+    public static final int FIRST_ROW_JANUARY_REPORT=9;
+    public static final int DEBIT_COLUMN=4;
+    public static final int CREDIT_COLUMN=5;
+    
     private long npsn;
 
     public BKUConverter() {
@@ -45,16 +48,38 @@ public class BKUConverter {
             // get first sheet
             Sheet sheet = workbook.getSheetAt(0);
             int rowIndex=0;
+            boolean endOfReport=false;
             // chek month of report
             if(isJanuaryReport(excel)){
                 // january report
                 // first row
-                rowIndex=9;
+                rowIndex=FIRST_ROW_JANUARY_REPORT;
             } else{
                 // non january report
                 // first row
-                rowIndex=10;
+                rowIndex=FIRST_ROW_JANUARY_REPORT+1;
             }
+            // read line of report
+            do{
+                // set Bku object
+                Bku bku = new Bku();
+                // set row object
+                Row row = sheet.getRow(rowIndex);
+                //read debit or credit column
+                Cell debitCell = row.getCell(DEBIT_COLUMN);
+                double debit = debitCell.getNumericCellValue();
+                int debitint = (int)debit;
+                Cell creditCell = row.getCell(CREDIT_COLUMN);
+                double credit = creditCell.getNumericCellValue();
+                int creditint= (int)credit;
+                // cek null value
+                if(debit!=0 || credit!=0){
+                    bku.setPengeluaran(debitint);
+                    bku.setPenerimaan(creditint);
+                }
+                //increase row index
+                rowIndex++;
+            }while(!endOfReport);
         } catch (IOException ex) {
             Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
