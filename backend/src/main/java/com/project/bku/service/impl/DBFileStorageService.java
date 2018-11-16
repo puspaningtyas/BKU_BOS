@@ -1,5 +1,4 @@
-package com.project.bku.service.impl;//package com.project.bku.service.impl;
-
+package com.project.bku.service.impl;
 
 import com.project.bku.exception.FileNotFoundException;
 import com.project.bku.exception.FileStorageException;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 
 @Service
@@ -23,7 +23,7 @@ public class DBFileStorageService {
 
         try {
             // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
+            if (fileName.contains("..")) {
                 throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
             }
 

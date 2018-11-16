@@ -1,4 +1,4 @@
-package com.project.bku.model;//package com.project.bku.model;
+package com.project.bku.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "files")
 public class DBFile {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
