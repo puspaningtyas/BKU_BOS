@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bku.pojos;
+package com.bku.xls;
 
 import java.util.Date;
 
@@ -14,7 +14,7 @@ import java.util.Date;
 public class Bku {
 
     private long id;
-    private Sekolah sekolah;
+    private long npsn;
     private Date createdAt;
     private Date updatedAt;
     private Long createdBy;
@@ -36,6 +36,27 @@ public class Bku {
     public Bku() {
     }
 
+    public Bku(long npsn, Date createdAt, Date updatedAt, Long createdBy, Long updatedBy, String fileBukti, String kodeAkreditasi, String kodeBkd, String kodeKementrian, String kodeLaporanBos, String noBukti, String noKode, Integer penerimaan, Integer pengeluaran, String statusPemeriksa, Date tanggal, Date tanggalPelunasan, String uraian) {
+        this.npsn = npsn;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.fileBukti = fileBukti;
+        this.kodeAkreditasi = kodeAkreditasi;
+        this.kodeBkd = kodeBkd;
+        this.kodeKementrian = kodeKementrian;
+        this.kodeLaporanBos = kodeLaporanBos;
+        this.noBukti = noBukti;
+        this.noKode = noKode;
+        this.penerimaan = penerimaan;
+        this.pengeluaran = pengeluaran;
+        this.statusPemeriksa = statusPemeriksa;
+        this.tanggal = tanggal;
+        this.tanggalPelunasan = tanggalPelunasan;
+        this.uraian = uraian;
+    }
+
     /**
      * @return the id
      */
@@ -51,17 +72,17 @@ public class Bku {
     }
 
     /**
-     * @return the sekolah
+     * @return the npsn
      */
-    public Sekolah getSekolah() {
-        return sekolah;
+    public long getNpsn() {
+        return npsn;
     }
 
     /**
-     * @param sekolah the sekolah to set
+     * @param npsn the npsn to set
      */
-    public void setSekolah(Sekolah sekolah) {
-        this.sekolah = sekolah;
+    public void setNpsn(long npsn) {
+        this.npsn = npsn;
     }
 
     /**
@@ -302,4 +323,5 @@ public class Bku {
         this.uraian = uraian;
     }
 
+    
 }
