@@ -8,19 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
-
-import com.project.bku.fileupload.FileStorageProperties;
-
 @SpringBootApplication
 @EntityScan(basePackageClasses = { 
 		BkuApplication.class,
 		Jsr310JpaConverters.class 
-})
-@EnableConfigurationProperties({
-    FileStorageProperties.class
 })
 public class BkuApplication extends SpringBootServletInitializer {
 

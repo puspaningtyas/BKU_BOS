@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import com.project.bku.security.UserPrincipal;
 
-
 @Configuration
 @EnableJpaAuditing
 public class AuditingConfig {

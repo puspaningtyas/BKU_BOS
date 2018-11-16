@@ -24,7 +24,7 @@ public class BkuController {
 
 	@Autowired
 	BkuService bkuServiceImpl;
-
+	
 	@GetMapping("/bku/{id}")
 	public BkuDto getById(@CurrentUser UserPrincipal currentUser, @PathVariable Long id) {
 		BkuDto bku =  bkuServiceImpl.getById(currentUser, id);

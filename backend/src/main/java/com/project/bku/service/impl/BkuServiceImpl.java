@@ -163,9 +163,12 @@ public class BkuServiceImpl implements BkuService {
 
 	@Override
 	public BkuDto save(UserPrincipal currentUser, BkuDto bkuDto) {
+		// berdasarkan user aktif
 		String tahun = currentUser.getTahunAktif();
+		
 		Long npsn = currentUser.getNpsn();
 		// cek npsn user aktiv
+		
 		if (npsn == null) {
 			throw new BadRequestException("Silahkan tambahkan sekolah anda.");
 		}
