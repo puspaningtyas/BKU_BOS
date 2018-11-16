@@ -1,4 +1,4 @@
-package com.project.bku.model;
+package com.project.bku.model;//package com.project.bku.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
