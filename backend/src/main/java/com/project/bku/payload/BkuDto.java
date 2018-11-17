@@ -43,10 +43,12 @@ public class BkuDto extends UserDateAuditDto{
 
 	private String statusPemeriksa;
 
-	private String fileBukti;
-	
 	private Long npsn;
-	
+
+	private String fileName;
+
+	private String fileType;
+
 	public BkuDto() {
 	
 	}
@@ -155,15 +157,23 @@ public class BkuDto extends UserDateAuditDto{
 		this.statusPemeriksa = statusPemeriksa;
 	}
 
-	public String getFileBukti() {
-		return fileBukti;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public void setFileBukti(String fileBukti) {
-		this.fileBukti = fileBukti;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
-	@JsonIgnore
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    @JsonIgnore
 	@JsonProperty(value = "npsn")
 	public Long getNpsn() {
 		return npsn;
@@ -172,5 +182,5 @@ public class BkuDto extends UserDateAuditDto{
 	public void setNpsn(Long npsn) {
 		this.npsn = npsn;
 	}
-	
+
 }

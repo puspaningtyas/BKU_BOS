@@ -2,185 +2,207 @@ package com.project.bku.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.bku.model.audit.UserDateAudit;
+import org.hibernate.annotations.Type;
 
 @MappedSuperclass
-public class BkuMappedSuperclass extends UserDateAudit implements Serializable{
+public class BkuMappedSuperclass extends UserDateAudit implements Serializable {
 
-	private static final long serialVersionUID = 6058751200888924794L;
+    private static final long serialVersionUID = 6058751200888924794L;
 
-	private static final String TIMEZONE = "Asia/Jakarta";
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private static final String TIMEZONE = "Asia/Jakarta";
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
-	@NotNull
-	private Date tanggal;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String noKode;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = TIMEZONE)
+    @NotNull
+    private Date tanggal;
 
-	private String noBukti;
+    private String noKode;
 
-	@NotBlank
-	private String uraian;
+    private String noBukti;
 
-	private Integer penerimaan;
+    @NotBlank
+    private String uraian;
 
-	private Integer pengeluaran;
+    private Integer penerimaan;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone=TIMEZONE)
-	private Date tanggalPelunasan;
+    private Integer pengeluaran;
 
-	private String kodeAkreditasi;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = TIMEZONE)
+    private Date tanggalPelunasan;
 
-	private String kodeKementrian;
+    private String kodeAkreditasi;
 
-	private String kodeBkd;
+    private String kodeKementrian;
 
-	private String kodeLaporanBos;
+    private String kodeBkd;
 
-	private String statusPemeriksa;
+    private String kodeLaporanBos;
 
-	private String fileBukti;
+    private String statusPemeriksa;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "npsn", nullable = false)
-	private Sekolah sekolah;
+    private String fileName;
 
-	public BkuMappedSuperclass() {
-	}
+    private String fileType;
 
-	public Long getId() {
-		return id;
-	}
+    /** jika menggunakan anotation @Lob => Disable autocommit
+     Disabling autocommit mode should do the trick, maybe you did something wrong
+     Comment : Although this doesn't solve the exception, it is currently the easiest alternative solution for me at the moment. Using bytea and removing the @Lob annotation is working well.
+     Source  : https://stackoverflow.com/questions/38647692/psqlexception-large-objects-may-not-be-used-in-auto-commit-mode
+     **/
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    //@Lob
+    private byte[] data;
 
-	public Date getTanggal() {
-		return tanggal;
-	}
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "npsn", nullable = false)
+    private Sekolah sekolah;
 
-	public void setTanggal(Date tanggal) {
-		this.tanggal = tanggal;
-	}
+    public BkuMappedSuperclass() {
+    }
 
-	public String getNoKode() {
-		return noKode;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setNoKode(String noKode) {
-		this.noKode = noKode;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getNoBukti() {
-		return noBukti;
-	}
+    public Date getTanggal() {
+        return tanggal;
+    }
 
-	public void setNoBukti(String noBukti) {
-		this.noBukti = noBukti;
-	}
+    public void setTanggal(Date tanggal) {
+        this.tanggal = tanggal;
+    }
 
-	public String getUraian() {
-		return uraian;
-	}
+    public String getNoKode() {
+        return noKode;
+    }
 
-	public void setUraian(String uraian) {
-		this.uraian = uraian;
-	}
+    public void setNoKode(String noKode) {
+        this.noKode = noKode;
+    }
 
-	public Integer getPenerimaan() {
-		return penerimaan;
-	}
+    public String getNoBukti() {
+        return noBukti;
+    }
 
-	public void setPenerimaan(Integer penerimaan) {
-		this.penerimaan = penerimaan;
-	}
+    public void setNoBukti(String noBukti) {
+        this.noBukti = noBukti;
+    }
 
-	public Integer getPengeluaran() {
-		return pengeluaran;
-	}
+    public String getUraian() {
+        return uraian;
+    }
 
-	public void setPengeluaran(Integer pengeluaran) {
-		this.pengeluaran = pengeluaran;
-	}
+    public void setUraian(String uraian) {
+        this.uraian = uraian;
+    }
 
-	public Date getTanggalPelunasan() {
-		return tanggalPelunasan;
-	}
+    public Integer getPenerimaan() {
+        return penerimaan;
+    }
 
-	public void setTanggalPelunasan(Date tanggalPelunasan) {
-		this.tanggalPelunasan = tanggalPelunasan;
-	}
+    public void setPenerimaan(Integer penerimaan) {
+        this.penerimaan = penerimaan;
+    }
 
-	public String getKodeAkreditasi() {
-		return kodeAkreditasi;
-	}
+    public Integer getPengeluaran() {
+        return pengeluaran;
+    }
 
-	public void setKodeAkreditasi(String kodeAkreditasi) {
-		this.kodeAkreditasi = kodeAkreditasi;
-	}
+    public void setPengeluaran(Integer pengeluaran) {
+        this.pengeluaran = pengeluaran;
+    }
 
-	public String getKodeKementrian() {
-		return kodeKementrian;
-	}
+    public Date getTanggalPelunasan() {
+        return tanggalPelunasan;
+    }
 
-	public void setKodeKementrian(String kodeKementrian) {
-		this.kodeKementrian = kodeKementrian;
-	}
+    public void setTanggalPelunasan(Date tanggalPelunasan) {
+        this.tanggalPelunasan = tanggalPelunasan;
+    }
 
-	public String getKodeBkd() {
-		return kodeBkd;
-	}
+    public String getKodeAkreditasi() {
+        return kodeAkreditasi;
+    }
 
-	public void setKodeBkd(String kodeBkd) {
-		this.kodeBkd = kodeBkd;
-	}
+    public void setKodeAkreditasi(String kodeAkreditasi) {
+        this.kodeAkreditasi = kodeAkreditasi;
+    }
 
-	public Sekolah getSekolah() {
-		return sekolah;
-	}
+    public String getKodeKementrian() {
+        return kodeKementrian;
+    }
 
-	public void setSekolah(Sekolah sekolah) {
-		this.sekolah = sekolah;
-	}
+    public void setKodeKementrian(String kodeKementrian) {
+        this.kodeKementrian = kodeKementrian;
+    }
 
-	public String getKodeLaporanBos() {
-		return kodeLaporanBos;
-	}
+    public String getKodeBkd() {
+        return kodeBkd;
+    }
 
-	public void setKodeLaporanBos(String kodeLaporanBos) {
-		this.kodeLaporanBos = kodeLaporanBos;
-	}
+    public void setKodeBkd(String kodeBkd) {
+        this.kodeBkd = kodeBkd;
+    }
 
-	public String getStatusPemeriksa() {
-		return statusPemeriksa;
-	}
+    public Sekolah getSekolah() {
+        return sekolah;
+    }
 
-	public void setStatusPemeriksa(String statusPemeriksa) {
-		this.statusPemeriksa = statusPemeriksa;
-	}
+    public void setSekolah(Sekolah sekolah) {
+        this.sekolah = sekolah;
+    }
 
-	public String getFileBukti() {
-		return fileBukti;
-	}
+    public String getKodeLaporanBos() {
+        return kodeLaporanBos;
+    }
 
-	public void setFileBukti(String fileBukti) {
-		this.fileBukti = fileBukti;
-	}
-	
+    public void setKodeLaporanBos(String kodeLaporanBos) {
+        this.kodeLaporanBos = kodeLaporanBos;
+    }
+
+    public String getStatusPemeriksa() {
+        return statusPemeriksa;
+    }
+
+    public void setStatusPemeriksa(String statusPemeriksa) {
+        this.statusPemeriksa = statusPemeriksa;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

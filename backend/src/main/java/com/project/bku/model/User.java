@@ -48,7 +48,7 @@ public class User extends DateAudit {
 	private String tahunAktif;
 
 	@ManyToOne
-	@JoinColumn(name = "npsn", nullable = true, updatable = false)
+	@JoinColumn(name = "npsn", nullable = true)
 	private Sekolah sekolah;
 
 	@ManyToMany(fetch = FetchType.LAZY)
