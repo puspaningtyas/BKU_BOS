@@ -135,11 +135,30 @@ public class BKUConverter {
         //baca tanggal
         Cell dateCell = row.getCell(DATE_COLUMN);
         Date date = dateCell.getDateCellValue();
+        // baca no kode
+        Cell kodeCell = row.getCell(NO_KODE_COLUMN);
+        String kode = kodeCell.getStringCellValue();
+        // baca no bukti
+        Cell buktiCell = row.getCell(NO_BUKTI_COLUMN);
+        String bukti = buktiCell.getStringCellValue();
+        //baca uraian
+        String uraian;
+        Cell uraianCell;
+        uraianCell = row.getCell(URAIAN_COLUMN);
+        uraian = uraianCell.getStringCellValue();
+        uraian = uraian.toLowerCase();
+
+        
         // set Bku object
         Bku bku = new Bku();
+        bku.setNpsn(npsn);
+        bku.setTanggal(date);
+        bku.setNoKode(kode);
+        bku.setNoBukti(bukti);
+        bku.setUraian(uraian);
         bku.setPengeluaran(debitint);
         bku.setPenerimaan(creditint);
-        bku.setTanggal(date);
+        
         // return bku
         return bku;
     }
