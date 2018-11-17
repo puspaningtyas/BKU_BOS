@@ -71,16 +71,8 @@ public class BKUConverter {
                 while (!endOfReport) {
                     // set row object
                     Row row = sheet.getRow(rowIndex);
-                    //read debit or credit column
-                    Cell debitCell = row.getCell(DEBIT_COLUMN);
-                    double debit = debitCell.getNumericCellValue();
-                    Cell creditCell = row.getCell(CREDIT_COLUMN);
-                    double credit = creditCell.getNumericCellValue();
-                    String uraian;
-                    Cell uraianCell;
-                    // cek null value
-
-                    if (debit != 0 || credit != 0) {
+                    // baris sesuai standar apa tidak
+                    if (isRowStandard(row)) {
                         //baca baris
                         Bku bku = readRow(row);
                         // tambahkan ke list
@@ -88,14 +80,9 @@ public class BKUConverter {
                     }
                     //increase row index
                     rowIndex++;
-                    // cek end of file
+                    // cek end of report
                     row = sheet.getRow(rowIndex);
-                    uraianCell = row.getCell(URAIAN_COLUMN);
-                    uraian = uraianCell.getStringCellValue();
-                    uraian = uraian.toLowerCase();
-                    if (uraian.contains("jumlah")) {
-                        endOfReport = true;
-                    }
+                    endOfReport = isEndOfReport(row);
                 };
             } catch (IOException ex) {
                 Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,9 +93,38 @@ public class BKUConverter {
         }
     }
 
-    public Bku readRow(Row row) {
-        // value credit atau debit tidak null
+    public boolean isEndOfReport(Row row) {
+        //set uraian
+        String uraian;
+        Cell uraianCell;
+        uraianCell = row.getCell(URAIAN_COLUMN);
+        uraian = uraianCell.getStringCellValue();
+        uraian = uraian.toLowerCase();
+        if (uraian.contains("jumlah")) {
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public boolean isRowStandard(Row row) {
+        //read debit or credit column
+        Cell debitCell = row.getCell(DEBIT_COLUMN);
+        double debit = debitCell.getNumericCellValue();
+        Cell creditCell = row.getCell(CREDIT_COLUMN);
+        double credit = creditCell.getNumericCellValue();
         //baca tanggal
+        Cell dateCell = row.getCell(DATE_COLUMN);
+        Date date = dateCell.getDateCellValue();
+        // cek debit !=0 atau kredit !=0 dan tanggal tidak kosong
+        if ((debit != 0 || credit != 0) && date != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Bku readRow(Row row) {
         //read debit or credit column
         Cell debitCell = row.getCell(DEBIT_COLUMN);
         double debit = debitCell.getNumericCellValue();
@@ -116,6 +132,7 @@ public class BKUConverter {
         Cell creditCell = row.getCell(CREDIT_COLUMN);
         double credit = creditCell.getNumericCellValue();
         int creditint = (int) credit;
+        //baca tanggal
         Cell dateCell = row.getCell(DATE_COLUMN);
         Date date = dateCell.getDateCellValue();
         // set Bku object
