@@ -5,7 +5,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints =  @UniqueConstraint(columnNames = { "fileBukti" }))
+@Table
 public class Bku2021 extends BkuMappedSuperclass{
 	
 	private static final long serialVersionUID = 1L;
