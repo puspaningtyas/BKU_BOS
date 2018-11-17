@@ -23,6 +23,14 @@ public class TestBacaFile {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             ArrayList<Bku> list = bku.readExcel(jf.getSelectedFile());
             System.out.println("Panjang List = "+list.size());
+            for (int i = 0; i < list.size(); i++) {
+                Bku tmp = list.get(i);
+                System.out.println("Npsn = "+tmp.getNpsn()
+                        +",tgl = "+tmp.getTanggal()
+                        +",uraian = "+tmp.getUraian()
+                        +",kredit = "+tmp.getPenerimaan()
+                        +",debit = "+tmp.getPengeluaran());
+            }
         }
     }
 }

@@ -31,8 +31,8 @@ public class BKUConverter {
     public static final int NO_KODE_COLUMN = 1;
     public static final int NO_BUKTI_COLUMN = 2;
     public static final int URAIAN_COLUMN = 3;
-    public static final int DEBIT_COLUMN = 4;
-    public static final int CREDIT_COLUMN = 5;
+    public static final int CREDIT_COLUMN = 4;
+    public static final int DEBIT_COLUMN = 5;
     public static final int LUNAS_DATE_COLUMN = 8;
     public static final int KODE_AKREDITASI_COLUMN = 9;
     public static final int KODE_KEMENTRIAN_COLUMN = 10;
@@ -54,7 +54,7 @@ public class BKUConverter {
             return null;
         } else {
             // create bku list
-            ArrayList<Bku> list = null;
+            ArrayList<Bku> list = new ArrayList<Bku>();
             try {
                 // Creating a Workbook from an Excel file (.xls or .xlsx)
                 Workbook workbook = WorkbookFactory.create(excel);
