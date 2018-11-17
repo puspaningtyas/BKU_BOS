@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
  *
  * @author user only
  */
-public class TestBacaBulanLaporan {
+public class TestBacaBulanLaporanJanuari {
 
     public static void main(String[] args) {
         JFileChooser jf = new JFileChooser();
