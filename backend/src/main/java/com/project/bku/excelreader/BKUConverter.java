@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.project.bku.payload.BkuDto;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -21,7 +23,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class BkuConverter {
+public class BKUConverter {
 
     public static final int FIRST_ROW_JANUARY_REPORT = 9;
     public static final int DATE_COLUMN = 0;
@@ -40,18 +42,18 @@ public class BkuConverter {
     public static final int NPSN_ROW = 4;
     private long npsn;
 
-    public BkuConverter() {
+    public BKUConverter() {
     }
 
-    public ArrayList<Bku> readExcel(File excel) {
+    public ArrayList<BkuDto> readExcel(File excel) {
         // read npsn
-        readNpsn(excel);
+        npsn = readNpsn(excel);
         // npsn not found
         if (npsn == -1) {
             return null;
         } else {
             // create bku list
-            ArrayList<Bku> list = new ArrayList<Bku>();
+            ArrayList<BkuDto> list = new ArrayList<BkuDto>();
             try {
                 // Creating a Workbook from an Excel file (.xls or .xlsx)
                 Workbook workbook = WorkbookFactory.create(excel);
@@ -76,7 +78,7 @@ public class BkuConverter {
                     // baris sesuai standar apa tidak
                     if (isRowStandard(row)) {
                         //baca baris
-                        Bku bku = readRow(row);
+                        BkuDto bku = readRow(row);
                         // tambahkan ke list
                         list.add(bku);
                     }
@@ -87,9 +89,9 @@ public class BkuConverter {
                     endOfReport = isEndOfReport(row);
                 };
             } catch (IOException ex) {
-                Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (EncryptedDocumentException ex) {
-                Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
             }
             return list;
         }
@@ -126,7 +128,7 @@ public class BkuConverter {
         }
     }
 
-    public Bku readRow(Row row) {
+    public BkuDto readRow(Row row) {
         //read debit or credit column
         Cell debitCell = row.getCell(DEBIT_COLUMN);
         double debit = debitCell.getNumericCellValue();
@@ -201,7 +203,7 @@ public class BkuConverter {
             bos = String.valueOf(bosDouble);
         }
         // set Bku object
-        Bku bku = new Bku();
+        BkuDto bku = new BkuDto();
         bku.setNpsn(npsn);
         bku.setTanggal(date);
         bku.setNoKode(kode);
@@ -234,7 +236,7 @@ public class BkuConverter {
             // get npsn
             //    set to npsn active cell
             Row row = sheet.getRow(NPSN_ROW);
-            Cell cell = row.getCell(NPSN_ROW);
+            Cell cell = row.getCell(NPSN_COLUMN);
             if (cell.getCellType() == CellType.NUMERIC) {
                 double hasil = cell.getNumericCellValue();
                 npsn = (long) hasil;
@@ -243,9 +245,9 @@ public class BkuConverter {
                 npsn = Long.parseLong(hasil);
             }
         } catch (IOException ex) {
-            Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
-            Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return npsn;
     }
@@ -268,9 +270,9 @@ public class BkuConverter {
                 result = true;
             }
         } catch (IOException ex) {
-            Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (EncryptedDocumentException ex) {
-            Logger.getLogger(BkuConverter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
     }

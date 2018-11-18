@@ -1,5 +1,7 @@
 package com.project.bku.excelreader;
 
+import com.project.bku.payload.BkuDto;
+
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
@@ -12,9 +14,9 @@ public class TestBacaFile {
     public static void main(String[] args) {
         JFileChooser jf = new JFileChooser();
         int returnVal = jf.showOpenDialog(null);
-        BkuConverter bku = new BkuConverter();
+        BKUConverter bku = new BKUConverter();
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            ArrayList<Bku> list = bku.readExcel(jf.getSelectedFile());
+            ArrayList<BkuDto> list = bku.readExcel(jf.getSelectedFile());
             System.out.println("Panjang List = "+list.size());
             for (int i = 0; i < list.size(); i++) {
                 System.out.println("getNpsn : "+list.get(i).getNpsn());

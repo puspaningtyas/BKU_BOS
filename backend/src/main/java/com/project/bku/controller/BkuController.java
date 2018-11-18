@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.project.bku.excelreader.Bku;
 import com.project.bku.payload.DownloadFileResponse;
+import com.project.bku.payload.PagedResponse;
+import com.project.bku.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +36,10 @@ public class BkuController {
 	}
 	
 	@GetMapping("/bku")
-	public List<BkuDto> getAll(@CurrentUser UserPrincipal currentUser) {
-		List<BkuDto> list =  bkuServiceImpl.getAllBku(currentUser);
-		return list;
+	public PagedResponse<BkuDto> getAllByNpsn(@CurrentUser UserPrincipal currentUser,
+												  @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+												  @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size){
+		return bkuServiceImpl.getAllBku(currentUser, page, size);
 	}
 	
 	@PostMapping("/bku")
@@ -55,8 +58,9 @@ public class BkuController {
 	}
 	
 	@DeleteMapping("/bku/{id}")
-	public void delete(@CurrentUser UserPrincipal currentUser, @PathVariable Long id) {
+	public ResponseEntity<?> delete(@CurrentUser UserPrincipal currentUser, @PathVariable Long id) {
 		bkuServiceImpl.delete(currentUser, id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
     @GetMapping("/bku/download/{id}")
@@ -71,7 +75,7 @@ public class BkuController {
     }
 
     @PostMapping("/bkuList")
-    public List<Bku> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
+    public List<BkuDto> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
         return bkuServiceImpl.saveExcel(currentUser, file);
     }
 }

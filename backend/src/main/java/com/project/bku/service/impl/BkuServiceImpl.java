@@ -4,11 +4,16 @@ import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.project.bku.excelreader.Bku;
-import com.project.bku.excelreader.BkuConverter;
+import com.project.bku.excelreader.BKUConverter;
 import com.project.bku.payload.DownloadFileResponse;
+import com.project.bku.payload.PagedResponse;
+import com.project.bku.utils.AppConstants;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.bku.converter.Bku2018Converter;
@@ -20,8 +25,6 @@ import com.project.bku.security.UserPrincipal;
 import com.project.bku.service.BkuService;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import org.apache.commons.fileupload.disk.DiskFileItem;
 
 @Service
 public class BkuServiceImpl implements BkuService {
@@ -69,7 +72,7 @@ public class BkuServiceImpl implements BkuService {
     ModelMapper modelMapper;
 
     @Autowired
-    BkuConverter bkuConverter;
+    BKUConverter bkuConverter;
 
     @Override
     public BkuDto getById(UserPrincipal currentUser, Long id) {
@@ -127,11 +130,102 @@ public class BkuServiceImpl implements BkuService {
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", id));
             bku = modelMapper.map(bku2028, BkuDto.class);
         } else {
-            throw new BadRequestException("Resource tidak ditemukan");
+            throw new BadRequestException("Resource not found.");
         }
         return bku;
     }
 
+    @Override
+    public PagedResponse<BkuDto> getAllBku(UserPrincipal currentUser, int page, int size) {
+        validatePageNumberAndSize(page, size);
+
+        //cek tahun aktif
+        String tahun = currentUser.getTahunAktif();
+
+        //cek npsn
+        Long npsn = currentUser.getNpsn();
+        if (npsn == null) {
+            throw new BadRequestException("Silahkan tambahkan sekolah anda.");
+        }
+
+        //create pageable
+        Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
+
+        //temp
+        PagedResponse<BkuDto> pagedResponse = null;
+
+        if (tahun.equals("2018")) {
+            Page<Bku2018> bku = repositoryBku2018.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2019")) {
+            Page<Bku2019> bku = repositoryBku2019.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2020")) {
+            Page<Bku2020> bku = repositoryBku2020.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2021")) {
+            Page<Bku2021> bku = repositoryBku2021.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2022")) {
+            Page<Bku2022> bku = repositoryBku2022.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2023")) {
+            Page<Bku2023> bku = repositoryBku2023.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2024")) {
+            Page<Bku2024> bku = repositoryBku2024.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2025")) {
+            Page<Bku2025> bku = repositoryBku2025.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2026")) {
+            Page<Bku2026> bku = repositoryBku2026.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2027")) {
+            Page<Bku2027> bku = repositoryBku2027.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else if (tahun.equals("2028")) {
+            Page<Bku2028> bku = repositoryBku2028.findAllBySekolahNpsn(npsn, pageable);
+            List<BkuDto> bkuDtos = bku.getContent().stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
+            pagedResponse = new PagedResponse<>(bkuDtos, bku.getNumber(), bku.getSize(), bku.getTotalElements(),
+                    bku.getTotalPages(), bku.isLast());
+        } else {
+            throw new BadRequestException("Resource not found.");
+        }
+        return pagedResponse;
+    }
+
+    private void validatePageNumberAndSize(int page, int size) {
+        if (page < 0) {
+            throw new BadRequestException("Page number cannot be less than zero.");
+        }
+
+        if (size > AppConstants.MAX_PAGE_SIZE) {
+            throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
+        }
+    }
+
+    // not used
     @Override
     public List<BkuDto> getAllBku(UserPrincipal currentUser) {
         String tahun = currentUser.getTahunAktif();
@@ -141,40 +235,40 @@ public class BkuServiceImpl implements BkuService {
         }
         List<BkuDto> bku = null;
         if (tahun.equals("2018")) {
-            List<Bku2018> list = repositoryBku2018.findAllByNisn(npsn);
+            List<Bku2018> list = repositoryBku2018.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2019")) {
-            List<Bku2019> list = repositoryBku2019.findAllByNisn(npsn);
+            List<Bku2019> list = repositoryBku2019.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2020")) {
-            List<Bku2020> list = repositoryBku2020.findAllByNisn(npsn);
+            List<Bku2020> list = repositoryBku2020.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2021")) {
-            List<Bku2021> list = repositoryBku2021.findAllByNisn(npsn);
+            List<Bku2021> list = repositoryBku2021.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2022")) {
-            List<Bku2022> list = repositoryBku2022.findAllByNisn(npsn);
+            List<Bku2022> list = repositoryBku2022.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2023")) {
-            List<Bku2023> list = repositoryBku2023.findAllByNisn(npsn);
+            List<Bku2023> list = repositoryBku2023.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2024")) {
-            List<Bku2024> list = repositoryBku2024.findAllByNisn(npsn);
+            List<Bku2024> list = repositoryBku2024.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2025")) {
-            List<Bku2025> list = repositoryBku2025.findAllByNisn(npsn);
+            List<Bku2025> list = repositoryBku2025.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2026")) {
-            List<Bku2026> list = repositoryBku2026.findAllByNisn(npsn);
+            List<Bku2026> list = repositoryBku2026.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2027")) {
-            List<Bku2027> list = repositoryBku2027.findAllByNisn(npsn);
+            List<Bku2027> list = repositoryBku2027.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else if (tahun.equals("2028")) {
-            List<Bku2028> list = repositoryBku2028.findAllByNisn(npsn);
+            List<Bku2028> list = repositoryBku2028.findAllByNpsn(npsn);
             bku = list.stream().map(lis -> modelMapper.map(lis, BkuDto.class)).collect(Collectors.toList());
         } else {
-            throw new BadRequestException("Resource tidak ditemukan");
+            throw new BadRequestException("Resource not found.");
         }
         return bku;
     }
@@ -245,54 +339,62 @@ public class BkuServiceImpl implements BkuService {
 
     public BkuDto update(UserPrincipal currentUser, BkuDto bkuDto) {
         String tahun = currentUser.getTahunAktif();
+
+        Long npsn = currentUser.getNpsn();
+        if (npsn == null) {
+            throw new BadRequestException("Silahkan tambahkan sekolah anda.");
+        }
+
         BkuDto dto = null;
         if (bkuDto.getId() == null) {
             throw new BadRequestException("Id tidak boleh kosong");
         }
         if (tahun.equals("2018")) {
-            repositoryBku2018.findById(bkuDto.getId())
+            repositoryBku2018.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2018.save(modelMapper.map(bkuDto, Bku2018.class)), BkuDto.class);
         } else if (tahun.equals("2019")) {
-            repositoryBku2019.findById(bkuDto.getId())
+            repositoryBku2019.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2019", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2019.save(modelMapper.map(bkuDto, Bku2019.class)), BkuDto.class);
         } else if (tahun.equals("2020")) {
-            repositoryBku2020.findById(bkuDto.getId())
+            repositoryBku2020.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2020", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2020.save(modelMapper.map(bkuDto, Bku2020.class)), BkuDto.class);
         } else if (tahun.equals("2021")) {
-            repositoryBku2021.findById(bkuDto.getId())
+            repositoryBku2021.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2021", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2021.save(modelMapper.map(bkuDto, Bku2021.class)), BkuDto.class);
         } else if (tahun.equals("2022")) {
-            repositoryBku2022.findById(bkuDto.getId())
+            repositoryBku2022.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2022", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2022.save(modelMapper.map(bkuDto, Bku2022.class)), BkuDto.class);
         } else if (tahun.equals("2023")) {
-            repositoryBku2023.findById(bkuDto.getId())
+            repositoryBku2023.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2023", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2023.save(modelMapper.map(bkuDto, Bku2023.class)), BkuDto.class);
         } else if (tahun.equals("2024")) {
-            repositoryBku2024.findById(bkuDto.getId())
+            repositoryBku2024.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2024", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2024.save(modelMapper.map(bkuDto, Bku2024.class)), BkuDto.class);
         } else if (tahun.equals("2025")) {
-            repositoryBku2025.findById(bkuDto.getId())
+            repositoryBku2025.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2025", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2025.save(modelMapper.map(bkuDto, Bku2025.class)), BkuDto.class);
         } else if (tahun.equals("2026")) {
-            repositoryBku2026.findById(bkuDto.getId())
+            repositoryBku2026.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2026", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2026.save(modelMapper.map(bkuDto, Bku2026.class)), BkuDto.class);
         } else if (tahun.equals("2027")) {
-            repositoryBku2027.findById(bkuDto.getId())
+            repositoryBku2027.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2027", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2027.save(modelMapper.map(bkuDto, Bku2027.class)), BkuDto.class);
         } else if (tahun.equals("2028")) {
-            repositoryBku2028.findById(bkuDto.getId())
+            repositoryBku2028.findByIdNpsn(bkuDto.getId(), npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", bkuDto.getId()));
             dto = modelMapper.map(repositoryBku2028.save(modelMapper.map(bkuDto, Bku2028.class)), BkuDto.class);
+        } else {
+            throw new BadRequestException("Resource not found.");
         }
 
         return dto;
@@ -305,52 +407,58 @@ public class BkuServiceImpl implements BkuService {
         if (id == null) {
             throw new BadRequestException("Id tidak boleh kosong");
         }
+
+        Long npsn = currentUser.getNpsn();
+        if (npsn == null) {
+            throw new BadRequestException("Silahkan tambahkan sekolah anda.");
+        }
+
         if (tahun.equals("2018")) {
-            Bku2018 bku2018 = repositoryBku2018.findById(id)
+            Bku2018 bku2018 = repositoryBku2018.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", id));
             repositoryBku2018.delete(bku2018);
         } else if (tahun.equals("2019")) {
-            Bku2019 bku2019 = repositoryBku2019.findById(id)
+            Bku2019 bku2019 = repositoryBku2019.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2019", "id", id));
             repositoryBku2019.delete(bku2019);
         } else if (tahun.equals("2020")) {
-            Bku2020 bku2020 = repositoryBku2020.findById(id)
+            Bku2020 bku2020 = repositoryBku2020.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2020", "id", id));
             repositoryBku2020.delete(bku2020);
         } else if (tahun.equals("2021")) {
-            Bku2021 bku2021 = repositoryBku2021.findById(id)
+            Bku2021 bku2021 = repositoryBku2021.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2021", "id", id));
             repositoryBku2021.delete(bku2021);
         } else if (tahun.equals("2022")) {
-            Bku2022 bku2022 = repositoryBku2022.findById(id)
+            Bku2022 bku2022 = repositoryBku2022.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2022", "id", id));
             repositoryBku2022.delete(bku2022);
         } else if (tahun.equals("2023")) {
-            Bku2023 bku2023 = repositoryBku2023.findById(id)
+            Bku2023 bku2023 = repositoryBku2023.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2023", "id", id));
             repositoryBku2023.delete(bku2023);
         } else if (tahun.equals("2024")) {
-            Bku2024 bku2024 = repositoryBku2024.findById(id)
+            Bku2024 bku2024 = repositoryBku2024.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2024", "id", id));
             repositoryBku2024.delete(bku2024);
         } else if (tahun.equals("2025")) {
-            Bku2025 bku2025 = repositoryBku2025.findById(id)
+            Bku2025 bku2025 = repositoryBku2025.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2025", "id", id));
             repositoryBku2025.delete(bku2025);
         } else if (tahun.equals("2026")) {
-            Bku2026 bku2026 = repositoryBku2026.findById(id)
+            Bku2026 bku2026 = repositoryBku2026.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2026", "id", id));
             repositoryBku2026.delete(bku2026);
         } else if (tahun.equals("2027")) {
-            Bku2027 bku2027 = repositoryBku2027.findById(id)
+            Bku2027 bku2027 = repositoryBku2027.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2027", "id", id));
             repositoryBku2027.delete(bku2027);
         } else if (tahun.equals("2028")) {
-            Bku2028 bku2028 = repositoryBku2028.findById(id)
+            Bku2028 bku2028 = repositoryBku2028.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", id));
             repositoryBku2028.delete(bku2028);
         } else {
-            throw new BadRequestException("Resource tidak ditemukan");
+            throw new BadRequestException("Resource not found.");
         }
     }
 
@@ -368,18 +476,100 @@ public class BkuServiceImpl implements BkuService {
         if (fileName.contains("..")) {
             throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
         }
+        try {
+            if (tahun.equals("2018")) {
+                Bku2018 bku = repositoryBku2018.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", id));
 
-        if (tahun.equals("2018")) {
-            Bku2018 bku = repositoryBku2018.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", id));
-            try {
                 bku.setFileName(fileName);
                 bku.setFileType(file.getContentType());
                 bku.setData(file.getBytes());
                 dto = modelMapper.map(repositoryBku2018.save(bku), BkuDto.class);
-            } catch (IOException ex) {
-                throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+            } else if (tahun.equals("2019")) {
+                Bku2019 bku = repositoryBku2019.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2019", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2019.save(bku), BkuDto.class);
+            } else if (tahun.equals("2020")) {
+                Bku2020 bku = repositoryBku2020.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2020", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2020.save(bku), BkuDto.class);
+            } else if (tahun.equals("2021")) {
+                Bku2021 bku = repositoryBku2021.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2021", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2021.save(bku), BkuDto.class);
+            } else if (tahun.equals("2022")) {
+                Bku2022 bku = repositoryBku2022.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2022", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2022.save(bku), BkuDto.class);
+            } else if (tahun.equals("2023")) {
+                Bku2023 bku = repositoryBku2023.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2023", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2023.save(bku), BkuDto.class);
+            } else if (tahun.equals("2024")) {
+                Bku2024 bku = repositoryBku2024.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2024", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2024.save(bku), BkuDto.class);
+            } else if (tahun.equals("2025")) {
+                Bku2025 bku = repositoryBku2025.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2025", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2025.save(bku), BkuDto.class);
+            } else if (tahun.equals("2026")) {
+                Bku2026 bku = repositoryBku2026.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2026", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2026.save(bku), BkuDto.class);
+            } else if (tahun.equals("2027")) {
+                Bku2027 bku = repositoryBku2027.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2027", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2027.save(bku), BkuDto.class);
+            } else if (tahun.equals("2028")) {
+                Bku2028 bku = repositoryBku2028.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", id));
+
+                bku.setFileName(fileName);
+                bku.setFileType(file.getContentType());
+                bku.setData(file.getBytes());
+                dto = modelMapper.map(repositoryBku2028.save(bku), BkuDto.class);
+            } else {
+                throw new BadRequestException("Resource not found.");
             }
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }
         return dto;
     }
@@ -393,27 +583,66 @@ public class BkuServiceImpl implements BkuService {
             throw new BadRequestException("Silahkan tambahkan sekolah anda.");
         }
 
-        DownloadFileResponse bku = null;
+        DownloadFileResponse downloadFileResponse = null;
 
         if (tahun.equals("2018")) {
-            Bku2018 bku2018 = repositoryBku2018.findByIdNpsn(id, npsn)
+            Bku2018 bku = repositoryBku2018.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", id));
-            bku = modelMapper.map(bku2018, DownloadFileResponse.class);
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2019")) {
+            Bku2019 bku = repositoryBku2019.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2019", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2020")) {
+            Bku2020 bku = repositoryBku2020.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2020", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2021")) {
+            Bku2021 bku = repositoryBku2021.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2021", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2022")) {
+            Bku2022 bku = repositoryBku2022.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2022", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2023")) {
+            Bku2023 bku = repositoryBku2023.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2023", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2024")) {
+            Bku2024 bku = repositoryBku2024.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2024", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2025")) {
+            Bku2025 bku = repositoryBku2025.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2025", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2026")) {
+            Bku2026 bku = repositoryBku2026.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2026", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2027")) {
+            Bku2027 bku = repositoryBku2027.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2027", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
+        } else if (tahun.equals("2028")) {
+            Bku2028 bku = repositoryBku2028.findByIdNpsn(id, npsn)
+                    .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", id));
+            downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else {
-            throw new BadRequestException("File tidak ditemukan");
+            throw new BadRequestException("Resource not found.");
         }
-        return bku;
+        return downloadFileResponse;
     }
 
     @Override
-    public List<Bku> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IllegalStateException, IOException {
+    public List<BkuDto> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IllegalStateException, IOException {
         byte[] fileBytes = file.getBytes();
         File temp = File.createTempFile("temp-file-name", ".tmp");
         FileOutputStream fos = new FileOutputStream(temp);
         fos.write(fileBytes);
         temp.deleteOnExit();
-
-        List<Bku> bku = bkuConverter.readExcel(temp);
+        List<BkuDto> bku = bkuConverter.readExcel(temp);
         return bku;
     }
 }
