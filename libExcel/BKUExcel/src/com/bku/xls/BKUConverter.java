@@ -48,7 +48,7 @@ public class BKUConverter {
 
     public ArrayList<Bku> readExcel(File excel) {
         // read npsn
-        readNpsn(excel);
+        npsn = readNpsn(excel);
         // npsn not found
         if (npsn == -1) {
             return null;
@@ -237,7 +237,7 @@ public class BKUConverter {
             // get npsn
             //    set to npsn active cell
             Row row = sheet.getRow(NPSN_ROW);
-            Cell cell = row.getCell(NPSN_ROW);
+            Cell cell = row.getCell(NPSN_COLUMN);
             if (cell.getCellType() == CellType.NUMERIC) {
                 double hasil = cell.getNumericCellValue();
                 npsn = (long) hasil;
