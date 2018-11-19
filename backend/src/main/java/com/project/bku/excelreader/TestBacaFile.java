@@ -2,7 +2,11 @@ package com.project.bku.excelreader;
 
 import com.project.bku.payload.BkuDto;
 
+import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JFileChooser;
 
 /**
@@ -16,7 +20,7 @@ public class TestBacaFile {
         int returnVal = jf.showOpenDialog(null);
         BKUConverter bku = new BKUConverter();
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            ArrayList<BkuDto> list = bku.readExcel(jf.getSelectedFile());
+            List<BkuDto> list = bku.readExcel(jf.getSelectedFile());
             System.out.println("Panjang List = "+list.size());
             for (int i = 0; i < list.size(); i++) {
                 System.out.println("getNpsn : "+list.get(i).getNpsn());
@@ -32,6 +36,11 @@ public class TestBacaFile {
                 System.out.println("getTanggal : "+list.get(i).getTanggal());
                 System.out.println("getTanggalPelunasan : "+list.get(i).getTanggalPelunasan());
                 System.out.println("getStatusPemeriksa : "+list.get(i).getStatusPemeriksa());
+
+                Date date = list.get(i).getTanggal();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy");
+                String year = df.format(date);
+                System.out.println("YEAR : "+ year);
             }
         }
     }

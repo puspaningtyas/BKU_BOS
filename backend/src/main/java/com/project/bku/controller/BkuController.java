@@ -47,7 +47,12 @@ public class BkuController {
 		return bkuServiceImpl.save(currentUser, entity);
 	}
 
-	@PostMapping("/bku/insertFile")
+	@PostMapping("/bku/uploadExcel")
+	public List<BkuDto> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
+		return bkuServiceImpl.saveExcel(currentUser, file);
+	}
+
+	@PostMapping("/bku/uploadBukti")
 	public BkuDto insertFile(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file, @RequestParam("id") Long id) {
 		return bkuServiceImpl.uploadFile(currentUser, id, file);
 	}
@@ -72,10 +77,5 @@ public class BkuController {
                 .contentType(MediaType.parseMediaType(bku.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + bku.getFileName() + "\"")
                 .body(new ByteArrayResource(bku.getData()));
-    }
-
-    @PostMapping("/bkuList")
-    public List<BkuDto> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
-        return bkuServiceImpl.saveExcel(currentUser, file);
     }
 }
