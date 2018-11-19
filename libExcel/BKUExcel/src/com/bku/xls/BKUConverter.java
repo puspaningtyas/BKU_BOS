@@ -169,7 +169,7 @@ public class BKUConverter {
         Date tglLunas = tglLunasCell.getDateCellValue();
         // baca kode akreditasi
         Cell akreditasiCell = row.getCell(KODE_AKREDITASI_COLUMN);
-        String akreditasi;
+        String akreditasi = new String();
         if(akreditasiCell.getCellType()==CellType.BLANK){
             akreditasi ="";
         } else

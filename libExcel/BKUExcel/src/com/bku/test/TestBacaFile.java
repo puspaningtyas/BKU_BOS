@@ -30,7 +30,8 @@ public class TestBacaFile {
                         +",uraian = "+tmp.getUraian()
                         +",kredit = "+tmp.getPenerimaan()
                         +",debit = "+tmp.getPengeluaran()
-                        +",akreditasi = "+tmp.getKodeAkreditasi());
+                        +",akreditasi = "+tmp.getKodeAkreditasi()
+                        +",bkd = "+tmp.getKodeBkd());
                 
             }
         }
