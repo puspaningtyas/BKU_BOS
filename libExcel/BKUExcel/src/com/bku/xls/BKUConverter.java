@@ -50,7 +50,7 @@ public class BKUConverter {
         // read npsn
         npsn = readNpsn(excel);
         // npsn not found
-        if (npsn == -1) {
+        if (npsn == 0) {
             return null;
         } else {
             // create bku list
@@ -228,7 +228,7 @@ public class BKUConverter {
      * @return
      */
     public long readNpsn(File excel) {
-        long npsn = -1;
+        long npsn = 0;
         try {
             // Creating a Workbook from an Excel file (.xls or .xlsx)
             Workbook workbook = WorkbookFactory.create(excel);
