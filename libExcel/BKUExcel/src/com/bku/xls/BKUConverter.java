@@ -170,6 +170,9 @@ public class BKUConverter {
         // baca kode akreditasi
         Cell akreditasiCell = row.getCell(KODE_AKREDITASI_COLUMN);
         String akreditasi;
+        if(akreditasiCell.getCellType()==CellType.BLANK){
+            akreditasi ="";
+        } else
         if (akreditasiCell.getCellType() == CellType.STRING) {
             akreditasi = akreditasiCell.getStringCellValue();
         } else {
@@ -179,6 +182,9 @@ public class BKUConverter {
         // baca kode kementrian
         Cell kementrianCell = row.getCell(KODE_KEMENTRIAN_COLUMN);
         String kementrian;
+        if(kementrianCell.getCellType()==CellType.BLANK){
+            kementrian="";
+        } else
         if (kementrianCell.getCellType() == CellType.STRING) {
             kementrian = kementrianCell.getStringCellValue();
         } else {
@@ -187,16 +193,22 @@ public class BKUConverter {
         }
         // baca kode bkd
         Cell bkdCell = row.getCell(KODE_BKD_COLUMN);
-        String bkd;
+        String bkd11;
+        if(bkdCell.getCellType()==CellType.BLANK){
+            bkd11="";
+        } else
         if (bkdCell.getCellType() == CellType.STRING) {
-            bkd = bkdCell.getStringCellValue();
+            bkd11 = bkdCell.getStringCellValue();
         } else {
             double bkdDouble = bkdCell.getNumericCellValue();
-            bkd = String.valueOf(bkdDouble);
+            bkd11 = String.valueOf(bkdDouble);
         }
         // baca kode BOS
         Cell bosCell = row.getCell(KODE_BOS_COLUMN);
         String bos;
+        if(bosCell.getCellType()== CellType.BLANK){
+            bos="";
+        } else
         if (bosCell.getCellType() == CellType.STRING) {
             bos = bosCell.getStringCellValue();
         } else {
