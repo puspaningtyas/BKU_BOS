@@ -29,7 +29,10 @@ public class TestBacaFile {
                         +",tgl = "+tmp.getTanggal()
                         +",uraian = "+tmp.getUraian()
                         +",kredit = "+tmp.getPenerimaan()
-                        +",debit = "+tmp.getPengeluaran());
+                        +",debit = "+tmp.getPengeluaran()
+                        +",akreditasi = "+tmp.getKodeAkreditasi()
+                        +",bkd = "+tmp.getKodeBkd());
+                
             }
         }
     }
