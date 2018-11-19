@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.project.bku.payload.BkuExcelReponse;
 import com.project.bku.payload.DownloadFileResponse;
 import com.project.bku.payload.PagedResponse;
 import com.project.bku.utils.AppConstants;
@@ -48,7 +49,7 @@ public class BkuController {
 	}
 
 	@PostMapping("/bku/uploadExcel")
-	public List<BkuDto> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
+	public List<BkuExcelReponse> saveExcel(@CurrentUser UserPrincipal currentUser, @Valid @RequestParam("file") MultipartFile file) throws IOException {
 		return bkuServiceImpl.saveExcel(currentUser, file);
 	}
 

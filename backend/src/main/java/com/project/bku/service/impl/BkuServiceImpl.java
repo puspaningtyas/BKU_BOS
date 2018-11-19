@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.project.bku.excelreader.BKUConverter;
+import com.project.bku.payload.BkuExcelReponse;
 import com.project.bku.payload.DownloadFileResponse;
 import com.project.bku.payload.PagedResponse;
 import com.project.bku.utils.AppConstants;
@@ -639,7 +640,7 @@ public class BkuServiceImpl implements BkuService {
     }
 
     @Override
-    public List<BkuDto> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IllegalStateException, IOException {
+    public List<BkuExcelReponse> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IllegalStateException, IOException {
         byte[] fileBytes = file.getBytes();
         //save temp file
         File temp = File.createTempFile("temp-file-name", ".tmp");
@@ -666,10 +667,11 @@ public class BkuServiceImpl implements BkuService {
         Sekolah sekolah = sekolahRepository.findById(npsn)
                 .orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", npsn));
 
-        if (tahunTabel.equals("2018")) {
-            Date start = getFirstDateOfMonth(listBku.get(0).getTanggal());
-            Date end = getLastDateOfMonth(listBku.get(0).getTanggal());
+        // get range days in month
+        Date start = getFirstDateOfMonth(listBku.get(0).getTanggal());
+        Date end = getLastDateOfMonth(listBku.get(0).getTanggal());
 
+        if (tahunTabel.equals("2018")) {
             List<Bku2018> list = repositoryBku2018.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
             if (list.size() > 0) {
                 repositoryBku2018.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
@@ -680,8 +682,132 @@ public class BkuServiceImpl implements BkuService {
                 bku.setSekolah(sekolah);
                 repositoryBku2018.save(bku);
             }
+        } else if (tahunTabel.equals("2019")) {
+            List<Bku2019> list = repositoryBku2019.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2019.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2019 bku = modelMapper.map(bkuDto, Bku2019.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2019.save(bku);
+            }
+        } else if (tahunTabel.equals("2019")) {
+            List<Bku2019> list = repositoryBku2019.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2019.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2019 bku = modelMapper.map(bkuDto, Bku2019.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2019.save(bku);
+            }
+        } else if (tahunTabel.equals("2020")) {
+            List<Bku2020> list = repositoryBku2020.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2020.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2020 bku = modelMapper.map(bkuDto, Bku2020.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2020.save(bku);
+            }
+        } else if (tahunTabel.equals("2021")) {
+            List<Bku2021> list = repositoryBku2021.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2021.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2021 bku = modelMapper.map(bkuDto, Bku2021.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2021.save(bku);
+            }
+        } else if (tahunTabel.equals("2022")) {
+            List<Bku2022> list = repositoryBku2022.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2022.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2022 bku = modelMapper.map(bkuDto, Bku2022.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2022.save(bku);
+            }
+        } else if (tahunTabel.equals("2023")) {
+            List<Bku2023> list = repositoryBku2023.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2023.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2023 bku = modelMapper.map(bkuDto, Bku2023.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2023.save(bku);
+            }
+        } else if (tahunTabel.equals("2024")) {
+            List<Bku2024> list = repositoryBku2024.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2024.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2024 bku = modelMapper.map(bkuDto, Bku2024.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2024.save(bku);
+            }
+        } else if (tahunTabel.equals("2025")) {
+            List<Bku2025> list = repositoryBku2025.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2025.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2025 bku = modelMapper.map(bkuDto, Bku2025.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2025.save(bku);
+            }
+        } else if (tahunTabel.equals("2026")) {
+            List<Bku2026> list = repositoryBku2026.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2026.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2026 bku = modelMapper.map(bkuDto, Bku2026.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2026.save(bku);
+            }
+        } else if (tahunTabel.equals("2027")) {
+            List<Bku2027> list = repositoryBku2027.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2027.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2027 bku = modelMapper.map(bkuDto, Bku2027.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2027.save(bku);
+            }
+        } else if (tahunTabel.equals("2028")) {
+            List<Bku2028> list = repositoryBku2028.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            if (list.size() > 0) {
+                repositoryBku2028.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            }
+
+            for (BkuDto bkuDto : listBku) {
+                Bku2028 bku = modelMapper.map(bkuDto, Bku2028.class);
+                bku.setSekolah(sekolah);
+                repositoryBku2028.save(bku);
+            }
+        }else{
+            throw new BadRequestException("Resource tidak ditemukan");
         }
-        return listBku;
+        List<BkuExcelReponse> er = listBku.stream().map(lis -> modelMapper.map(lis, BkuExcelReponse.class)).collect(Collectors.toList());
+        return er;
     }
 
     public void verification(List<BkuDto> listBku, String tahunTabel, Long npsn) {
@@ -698,7 +824,7 @@ public class BkuServiceImpl implements BkuService {
             //cek bulan
             if (i < (listBku.size() - 1)) {
                 if (!getMonth(listBku.get(i).getTanggal()).equals(getMonth(listBku.get(i + 1).getTanggal()))) {
-                    throw new BadRequestException("Bulan pada uraian '" + listBku.get(i).getUraian() + "' tidak sama dengan '" + listBku.get(i + 1).getUraian()+"'");
+                    throw new BadRequestException("Bulan pada uraian '" + listBku.get(i).getUraian() + "' tidak sama dengan '" + listBku.get(i + 1).getUraian() + "'");
                 }
             }
             //cek tahun

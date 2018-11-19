@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.project.bku.payload.BkuDto;
+import com.project.bku.payload.BkuExcelReponse;
 import com.project.bku.payload.DownloadFileResponse;
 import com.project.bku.payload.PagedResponse;
 import com.project.bku.security.UserPrincipal;
@@ -18,7 +19,7 @@ public interface BkuService{
 	
 	public BkuDto save(UserPrincipal currentUser, BkuDto bkuDto);
 
-    public List<BkuDto> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IOException;
+    public List<BkuExcelReponse> saveExcel(UserPrincipal currentUser, MultipartFile file) throws IOException;
 	
 	public BkuDto update(UserPrincipal currentUser, BkuDto bkuDto);
 	
