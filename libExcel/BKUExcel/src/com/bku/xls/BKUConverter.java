@@ -169,8 +169,9 @@ public class BKUConverter {
         Date tglLunas = tglLunasCell.getDateCellValue();
         // baca kode akreditasi
         Cell akreditasiCell = row.getCell(KODE_AKREDITASI_COLUMN);
-        String akreditasi = new String();
-        if(akreditasiCell.getCellType()==CellType.BLANK){
+        String akreditasi = "";
+        
+        if(akreditasiCell==null){
             akreditasi ="";
         } else
         if (akreditasiCell.getCellType() == CellType.STRING) {
@@ -182,7 +183,7 @@ public class BKUConverter {
         // baca kode kementrian
         Cell kementrianCell = row.getCell(KODE_KEMENTRIAN_COLUMN);
         String kementrian;
-        if(kementrianCell.getCellType()==CellType.BLANK){
+        if(kementrianCell==null){
             kementrian="";
         } else
         if (kementrianCell.getCellType() == CellType.STRING) {
@@ -194,7 +195,7 @@ public class BKUConverter {
         // baca kode bkd
         Cell bkdCell = row.getCell(KODE_BKD_COLUMN);
         String bkd11;
-        if(bkdCell.getCellType()==CellType.BLANK){
+        if(bkdCell==null){
             bkd11="";
         } else
         if (bkdCell.getCellType() == CellType.STRING) {
@@ -206,7 +207,7 @@ public class BKUConverter {
         // baca kode BOS
         Cell bosCell = row.getCell(KODE_BOS_COLUMN);
         String bos;
-        if(bosCell.getCellType()== CellType.BLANK){
+        if(bosCell== null){
             bos="";
         } else
         if (bosCell.getCellType() == CellType.STRING) {
