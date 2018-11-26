@@ -37,12 +37,12 @@ public class SekolahServiceImpl implements SekolahService{
 	ModelMapper modelMapper;
 	
 	@Override
-	public Sekolah save(UserPrincipal currentUser, SekolahDto sekolahDto) {
+	public Sekolah createAndSetSekolah(UserPrincipal currentUser, SekolahDto sekolahDto) {
 		
 		// cek apakah user sudah terdaftar
 		Long npsn = currentUser.getNpsn();
 		if (npsn != null) {
-			throw new BadRequestException("Anda terdaftar disekolah!");
+			throw new BadRequestException("Anda sudah terdaftar disekolah!");
 		}
 		
 		// cek apakah npsn sudah dipakai
@@ -63,18 +63,47 @@ public class SekolahServiceImpl implements SekolahService{
 		return result;
 	}
 
-	@Override
-	public Sekolah getSekolah(UserPrincipal currentUser, Long npsn) {
-		Long currentNpsn = currentUser.getNpsn();
-		if ( currentNpsn == null) {
-			throw new BadRequestException("Anda tidak memiliki relasi ke sekolah manapun.");
-		}
-		Sekolah sekolah = sekolahRepository.findById(currentNpsn)
+    @Override
+    public Sekolah findAndSetSekolah(UserPrincipal currentUser, Long npsn) {
+
+	    // cek apakah user sudah terdaftar
+        if (currentUser.getNpsn() != null) {
+            throw new BadRequestException("Anda sudah terdaftar disekolah!");
+        }
+
+        //cari sekolah
+        Sekolah result = sekolahRepository.findById(npsn)
+                .orElseThrow(() -> new ResourceNotFoundException("Sekolah", "NPSN", npsn));
+
+        // set sekolah ke user
+        User user = userRepository.findById(currentUser.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", currentUser.getId()));
+        user.setSekolah(result);
+        userRepository.save(user);
+
+        return result;
+    }
+
+	public Sekolah getSekolah(Long npsn){
+		Sekolah sekolah = sekolahRepository.findById(npsn)
 				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "NPSN", npsn));
 		return sekolah;
 	}
 
 	@Override
+	public Sekolah getCurrentSekolah(UserPrincipal currentUser) {
+		Long currentNpsn = currentUser.getNpsn();
+		if ( currentNpsn == null) {
+			throw new BadRequestException("Anda tidak memiliki relasi ke sekolah manapun.");
+		}
+		Sekolah sekolah = sekolahRepository.findById(currentNpsn)
+				.orElseThrow(() -> new ResourceNotFoundException("Sekolah", "NPSN", currentNpsn));
+		return sekolah;
+	}
+
+
+
+    @Override
 	public Sekolah update(UserPrincipal currentUser, SekolahDto sekolahDto) {
 		Long currentNPSN = currentUser.getNpsn();
 		if (currentNPSN == null) {

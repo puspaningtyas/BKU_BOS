@@ -1,6 +1,9 @@
 package com.project.bku.controller;
 import javax.validation.Valid;
 
+import com.project.bku.payload.PagedResponse;
+import com.project.bku.service.UserService;
+import com.project.bku.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,63 +33,47 @@ import org.springframework.data.domain.Pageable;
 public class UserController {
 
 	@Autowired
-	private UserRepository userRepository;
+	UserService userServiceImpl;
 
 	@GetMapping("/user/me")
 	@PreAuthorize("hasAnyRole('ROLE_BENDAHARA','ROLE_PEMERIKSA')")
 	public User getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-		User user = userRepository.findById(currentUser.getId()).orElseThrow(() -> new BadRequestException("Tidak ada user"));
-		return user;
+		return userServiceImpl.getCurrentUser(currentUser);
 	}
 	
 	@GetMapping("/user/checkUsernameAvailability")
 	public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
-		Boolean isAvailable = !userRepository.existsByUsername(username);
-		return new UserIdentityAvailability(isAvailable);
+		return userServiceImpl.checkUsernameAvailability(username);
 	}
 
 	@GetMapping("/user/checkEmailAvailability")
 	public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-		Boolean isAvailable = !userRepository.existsByEmail(email);
-		return new UserIdentityAvailability(isAvailable);
+		return userServiceImpl.checkEmailAvailability(email);
 	}
 
 	@GetMapping("/users/{username}")
 	public User getUserProfile(@PathVariable(value = "username") String username) {
-		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-		return user;
+		return userServiceImpl.getUserProfile(username);
 	}
 
 	@GetMapping("/users")
-	public Page<User> getAllUserProfile(Pageable pageable) {
-		Page<User> list = userRepository.findAll(pageable);
-		return list;
+	public PagedResponse<User> getAllUserProfile(@CurrentUser UserPrincipal currentUser,
+                                                 @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+                                                 @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+		return userServiceImpl.getAllUserProfile(page, size);
 	}
 
 	@PutMapping("users")
 	@PreAuthorize("hasRole('BENDAHARA')")
 	public User updateUserProfile(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody UserUpdateRequest userDetails)
 			throws Exception {
-		User user = userRepository.findById(userDetails.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("User", "username", userDetails.getUsername()));
-		if (currentUser.getId().equals(userDetails.getId())) {
-			user.setName(userDetails.getName());
-			user.setUsername(userDetails.getUsername());
-			user.setEmail(userDetails.getEmail());
-			user.setTahunAktif(userDetails.getTahunAktif());
-			return userRepository.save(user);
-		} else {
-			throw new BadRequestException("Anda tidak diijinkan mengedit profile orang lain.");
-		}
+		return userServiceImpl.updateUserProfile(currentUser,userDetails);
 	}
 	
 	@DeleteMapping("/users/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userId) {
-	    User user = userRepository.findById(userId)
-	            .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-	    userRepository.delete(user);
+	    userServiceImpl.deleteUser(userId);
 	    return ResponseEntity.ok().build();
 	}
 }

@@ -37,8 +37,6 @@ public class ManajemenSekolahDto {
 	private String namaKepalaUptDisdikbud;
 
 	private String nipKepalaUptDisdikbud;
-	
-	private Long npsn;
 
 	public ManajemenSekolahDto() {
 	}
@@ -47,7 +45,7 @@ public class ManajemenSekolahDto {
 			String namaBendahara, String nipBendahara, String alamatRumahKepalaSekolah, String nomorSkKepalaSekolah,
 			Date tanggalSkKepalaSekolah, String nomorSkBendaharaBos, Date tanggalSkBendaharaBos,
 			String namaKetuaTimBosKabupaten, String nipKetuaTimBosKabupaten, String namaKepalaUptDisdikbud,
-			String nipKepalaUptDisdikbud, Long npsn) {
+			String nipKepalaUptDisdikbud) {
 		super();
 		this.namaKepalaSekolah = namaKepalaSekolah;
 		this.nipKepalaSekolah = nipKepalaSekolah;
@@ -63,7 +61,6 @@ public class ManajemenSekolahDto {
 		this.nipKetuaTimBosKabupaten = nipKetuaTimBosKabupaten;
 		this.namaKepalaUptDisdikbud = namaKepalaUptDisdikbud;
 		this.nipKepalaUptDisdikbud = nipKepalaUptDisdikbud;
-		this.npsn = npsn;
 	}
 
 	public String getNamaKepalaSekolah() {
@@ -178,13 +175,4 @@ public class ManajemenSekolahDto {
 		this.nipKepalaUptDisdikbud = nipKepalaUptDisdikbud;
 	}
 
-	public Long getNpsn() {
-		return npsn;
-	}
-
-	public void setNpsn(Long npsn) {
-		this.npsn = npsn;
-	}
-	
-	
 }

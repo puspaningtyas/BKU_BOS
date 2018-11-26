@@ -69,12 +69,12 @@ public class AuthController {
 	public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Username is already taken!"),
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.CONFLICT);
 		}
 
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Email Address already in use!"),
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.CONFLICT);
 		}
 
 		// Creating user's account
@@ -83,10 +83,17 @@ public class AuthController {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-		Role userRole = roleRepository.findByName(RoleName.ROLE_BENDAHARA)
-				.orElseThrow(() -> new AppException("User Role not set."));
+        Role userRole;
+		if (signUpRequest.getRole().equals("PEMERIKSA")){
+            userRole = roleRepository.findByName(RoleName.ROLE_PEMERIKSA)
+                    .orElseThrow(() -> new AppException("User Role not set."));
+        }else{
+            userRole = roleRepository.findByName(RoleName.ROLE_BENDAHARA)
+                    .orElseThrow(() -> new AppException("User Role not set."));
+        }
 
 		user.setRoles(Collections.singleton(userRole));
+		
 		if (signUpRequest.getNpsn() != null) {
 			Sekolah sekolah = sekolahRepository.findById(Long.valueOf(signUpRequest.getNpsn()))
 					.orElseThrow(() -> new AppException("Sekolah tidak ditemukan."));

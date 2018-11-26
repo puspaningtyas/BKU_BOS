@@ -24,8 +24,10 @@ public class SignUpRequest {
     @Size(min=4, max=4)
     private String tahunAktif;
 
+    private String role;
+
     private String npsn;
-    
+
     public String getName() {
         return name;
     }
@@ -73,5 +75,12 @@ public class SignUpRequest {
 	public void setNpsn(String npsn) {
 		this.npsn = npsn;
 	}
-	
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

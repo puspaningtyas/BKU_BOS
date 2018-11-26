@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.project.bku.exception.BadRequestException;
 import com.project.bku.payload.BkuDto;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -105,7 +106,7 @@ public class BKUConverter {
         uraianCell = row.getCell(URAIAN_COLUMN);
         uraian = uraianCell.getStringCellValue();
         uraian = uraian.toLowerCase();
-        if (uraian.contains("jumlah")) {
+        if (uraian.equals("jumlah")) {
             return true;
         } else {
             return false;
@@ -119,8 +120,15 @@ public class BKUConverter {
         Cell creditCell = row.getCell(CREDIT_COLUMN);
         double credit = creditCell.getNumericCellValue();
         //baca tanggal
-        Cell dateCell = row.getCell(DATE_COLUMN);
-        Date date = dateCell.getDateCellValue();
+        Cell dateCell;
+
+        dateCell = row.getCell(DATE_COLUMN);
+        Date date;
+        try {
+            date = dateCell.getDateCellValue();
+        } catch (IllegalStateException e) {
+            throw new BadRequestException("Salah ketik pada kolom jumlah akhir.");
+        }
         // cek debit !=0 atau kredit !=0 dan tanggal tidak kosong
         if ((debit != 0 || credit != 0) && date != null) {
             return true;
@@ -216,7 +224,7 @@ public class BKUConverter {
 
         // baca kode BOS
         Cell bosCell = row.getCell(KODE_BOS_COLUMN);
-        if (bosCell != null){
+        if (bosCell != null) {
             if (bosCell.getCellType() == CellType.STRING) {
                 bos = bosCell.getStringCellValue();
             } else {
