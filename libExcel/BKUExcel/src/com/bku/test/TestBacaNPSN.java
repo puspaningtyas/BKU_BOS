@@ -6,7 +6,7 @@
 package com.bku.test;
 
 import com.bku.xls.BKUConverter;
-import com.bku.xls.Bku;
+import com.bku.xls.BkuDto;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 

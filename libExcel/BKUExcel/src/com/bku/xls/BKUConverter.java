@@ -1,17 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bku.xls;
 
+import com.bku.exception.BadRequestException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -21,9 +17,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
- *
- * @author user only
+ * @author Puspaningtyas
  */
+
 public class BKUConverter {
 
     public static final int FIRST_ROW_JANUARY_REPORT = 9;
@@ -46,15 +42,15 @@ public class BKUConverter {
     public BKUConverter() {
     }
 
-    public ArrayList<Bku> readExcel(File excel) {
+    public ArrayList<BkuDto> readExcel(File excel) {
         // read npsn
         npsn = readNpsn(excel);
         // npsn not found
-        if (npsn == 0) {
+        if (npsn == -1) {
             return null;
         } else {
             // create bku list
-            ArrayList<Bku> list = new ArrayList<Bku>();
+            ArrayList<BkuDto> list = new ArrayList<BkuDto>();
             try {
                 // Creating a Workbook from an Excel file (.xls or .xlsx)
                 Workbook workbook = WorkbookFactory.create(excel);
@@ -72,6 +68,7 @@ public class BKUConverter {
                     // first row
                     rowIndex = FIRST_ROW_JANUARY_REPORT + 1;
                 }
+
                 // read line of report
                 while (!endOfReport) {
                     // set row object
@@ -79,7 +76,7 @@ public class BKUConverter {
                     // baris sesuai standar apa tidak
                     if (isRowStandard(row)) {
                         //baca baris
-                        Bku bku = readRow(row);
+                        BkuDto bku = readRow(row);
                         // tambahkan ke list
                         list.add(bku);
                     }
@@ -88,7 +85,8 @@ public class BKUConverter {
                     // cek end of report
                     row = sheet.getRow(rowIndex);
                     endOfReport = isEndOfReport(row);
-                };
+                }
+                ;
             } catch (IOException ex) {
                 Logger.getLogger(BKUConverter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (EncryptedDocumentException ex) {
@@ -105,7 +103,7 @@ public class BKUConverter {
         uraianCell = row.getCell(URAIAN_COLUMN);
         uraian = uraianCell.getStringCellValue();
         uraian = uraian.toLowerCase();
-        if (uraian.contains("jumlah")) {
+        if (uraian.equals("jumlah")) {
             return true;
         } else {
             return false;
@@ -119,8 +117,15 @@ public class BKUConverter {
         Cell creditCell = row.getCell(CREDIT_COLUMN);
         double credit = creditCell.getNumericCellValue();
         //baca tanggal
-        Cell dateCell = row.getCell(DATE_COLUMN);
-        Date date = dateCell.getDateCellValue();
+        Cell dateCell;
+
+        dateCell = row.getCell(DATE_COLUMN);
+        Date date;
+        try {
+            date = dateCell.getDateCellValue();
+        } catch (IllegalStateException e) {
+            throw new BadRequestException("Salah ketik pada kolom jumlah akhir.");
+        }
         // cek debit !=0 atau kredit !=0 dan tanggal tidak kosong
         if ((debit != 0 || credit != 0) && date != null) {
             return true;
@@ -129,7 +134,8 @@ public class BKUConverter {
         }
     }
 
-    public Bku readRow(Row row) {
+    public BkuDto readRow(Row row) {
+
         //read debit or credit column
         Cell debitCell = row.getCell(DEBIT_COLUMN);
         double debit = debitCell.getNumericCellValue();
@@ -137,9 +143,11 @@ public class BKUConverter {
         Cell creditCell = row.getCell(CREDIT_COLUMN);
         double credit = creditCell.getNumericCellValue();
         int creditint = (int) credit;
+
         //baca tanggal
         Cell dateCell = row.getCell(DATE_COLUMN);
         Date date = dateCell.getDateCellValue();
+
         // baca no kode
         Cell kodeCell = row.getCell(NO_KODE_COLUMN);
         String kode;
@@ -149,6 +157,7 @@ public class BKUConverter {
             double kodeDouble = kodeCell.getNumericCellValue();
             kode = String.valueOf(kodeDouble);
         }
+
         // baca no bukti
         Cell buktiCell = row.getCell(NO_BUKTI_COLUMN);
         String bukti;
@@ -158,66 +167,71 @@ public class BKUConverter {
             double buktiDouble = buktiCell.getNumericCellValue();
             bukti = String.valueOf(buktiDouble);
         }
+
         //baca uraian
         String uraian;
         Cell uraianCell;
         uraianCell = row.getCell(URAIAN_COLUMN);
         uraian = uraianCell.getStringCellValue();
         uraian = uraian.toLowerCase();
+
         // baca tanggal lunas
         Cell tglLunasCell = row.getCell(LUNAS_DATE_COLUMN);
         Date tglLunas = tglLunasCell.getDateCellValue();
+
+
+        //Temp
+        String akreditasi = "";
+        String kementrian = "";
+        String bkd11 = "";
+        String bos = "";
+
         // baca kode akreditasi
         Cell akreditasiCell = row.getCell(KODE_AKREDITASI_COLUMN);
-        String akreditasi = "";
-        
-        if(akreditasiCell==null){
-            akreditasi ="";
-        } else
-        if (akreditasiCell.getCellType() == CellType.STRING) {
-            akreditasi = akreditasiCell.getStringCellValue();
-        } else {
-            double akreditasiDouble = akreditasiCell.getNumericCellValue();
-            akreditasi = String.valueOf(akreditasiDouble);
+        if (akreditasiCell != null) {
+            if (akreditasiCell.getCellType() == CellType.STRING) {
+                akreditasi = akreditasiCell.getStringCellValue();
+            } else {
+                double akreditasiDouble = akreditasiCell.getNumericCellValue();
+                akreditasi = String.valueOf(akreditasiDouble);
+            }
         }
+
         // baca kode kementrian
         Cell kementrianCell = row.getCell(KODE_KEMENTRIAN_COLUMN);
-        String kementrian;
-        if(kementrianCell==null){
-            kementrian="";
-        } else
-        if (kementrianCell.getCellType() == CellType.STRING) {
-            kementrian = kementrianCell.getStringCellValue();
-        } else {
-            double kementrianDouble = kementrianCell.getNumericCellValue();
-            kementrian = String.valueOf(kementrianDouble);
+        if (kementrianCell != null) {
+            if (kementrianCell.getCellType() == CellType.STRING) {
+                kementrian = kementrianCell.getStringCellValue();
+            } else {
+                double kementrianDouble = kementrianCell.getNumericCellValue();
+                kementrian = String.valueOf(kementrianDouble);
+            }
         }
+
         // baca kode bkd
         Cell bkdCell = row.getCell(KODE_BKD_COLUMN);
-        String bkd11;
-        if(bkdCell==null){
-            bkd11="";
-        } else
-        if (bkdCell.getCellType() == CellType.STRING) {
-            bkd11 = bkdCell.getStringCellValue();
-        } else {
-            double bkdDouble = bkdCell.getNumericCellValue();
-            bkd11 = String.valueOf(bkdDouble);
+        if (bkdCell != null) {
+            if (bkdCell.getCellType() == CellType.STRING) {
+                bkd11 = bkdCell.getStringCellValue();
+            } else {
+                double bkdDouble = bkdCell.getNumericCellValue();
+                bkd11 = String.valueOf(bkdDouble);
+            }
         }
+
         // baca kode BOS
         Cell bosCell = row.getCell(KODE_BOS_COLUMN);
-        String bos;
-        if(bosCell== null){
-            bos="";
-        } else
-        if (bosCell.getCellType() == CellType.STRING) {
-            bos = bosCell.getStringCellValue();
-        } else {
-            double bosDouble = bosCell.getNumericCellValue();
-            bos = String.valueOf(bosDouble);
+        if (bosCell != null) {
+            if (bosCell.getCellType() == CellType.STRING) {
+                bos = bosCell.getStringCellValue();
+            } else {
+                double bosDouble = bosCell.getNumericCellValue();
+                bos = String.valueOf(bosDouble);
+            }
         }
+
         // set Bku object
-        Bku bku = new Bku();
+        BkuDto bku = new BkuDto();
         bku.setNpsn(npsn);
         bku.setTanggal(date);
         bku.setNoKode(kode);
@@ -228,7 +242,7 @@ public class BKUConverter {
         bku.setTanggalPelunasan(tglLunas);
         bku.setKodeAkreditasi(akreditasi);
         bku.setKodeKementrian(kementrian);
-        bku.setKodeBkd(kode);
+        bku.setKodeBkd(bkd11);
         bku.setKodeLaporanBos(bos);
         // return bku
         return bku;
@@ -241,7 +255,7 @@ public class BKUConverter {
      * @return
      */
     public long readNpsn(File excel) {
-        long npsn = 0;
+        long npsn = -1;
         try {
             // Creating a Workbook from an Excel file (.xls or .xlsx)
             Workbook workbook = WorkbookFactory.create(excel);
