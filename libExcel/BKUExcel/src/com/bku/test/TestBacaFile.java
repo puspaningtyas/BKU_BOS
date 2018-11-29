@@ -35,6 +35,7 @@ public class TestBacaFile {
                 System.out.println("getNoBukti : "+list.get(i).getNoBukti());
                 System.out.println("getPenerimaan : "+list.get(i).getPenerimaan());
                 System.out.println("getPengeluaran : "+list.get(i).getPengeluaran());
+                System.out.println("getSaldo : "+list.get(i).getSaldo());
                 System.out.println("getNoKode : "+list.get(i).getNoKode());
                 System.out.println("getTanggal : "+list.get(i).getTanggal());
                 System.out.println("getTanggalPelunasan : "+list.get(i).getTanggalPelunasan());

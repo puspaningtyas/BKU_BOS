@@ -67,6 +67,8 @@ public class BKUConverter {
                 BkuDto saldoPindahan = readRowSaldoPindahan(row);
                 // read or set saldo
                 saldo = saldoPindahan.getSaldo();
+                // add to list
+                list.add(saldoPindahan);
                 // set row for next read
                 rowIndex++;
                 // chek month of report
