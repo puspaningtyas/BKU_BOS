@@ -17,6 +17,8 @@ public class BkuDto {
     private Integer penerimaan;
 
     private Integer pengeluaran;
+    
+    private Integer saldo;
 
     private Date tanggalPelunasan;
 
@@ -166,6 +168,20 @@ public class BkuDto {
 
     public void setNpsn(Long npsn) {
         this.npsn = npsn;
+    }
+
+    /**
+     * @return the saldo
+     */
+    public Integer getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * @param saldo the saldo to set
+     */
+    public void setSaldo(Integer saldo) {
+        this.saldo = saldo;
     }
 
 }
