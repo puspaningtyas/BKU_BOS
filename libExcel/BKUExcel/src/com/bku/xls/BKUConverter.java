@@ -179,6 +179,7 @@ public class BKUConverter {
         BkuDto bku = new BkuDto();
         bku.setNpsn(npsn);
         bku.setTanggal(date);
+        bku.setTanggalPelunasan(date);
         bku.setUraian(uraian);
         bku.setPengeluaran(debitint);
         bku.setPenerimaan(creditint);
