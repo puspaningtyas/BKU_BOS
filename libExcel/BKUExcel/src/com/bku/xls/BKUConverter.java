@@ -179,11 +179,13 @@ public class BKUConverter {
         BkuDto bku = new BkuDto();
         bku.setNpsn(npsn);
         bku.setTanggal(date);
-        bku.setTanggalPelunasan(date);
+        bku.setNoKode("-");
+        bku.setNoBukti("-");
         bku.setUraian(uraian);
         bku.setPengeluaran(debitint);
         bku.setPenerimaan(creditint);
         bku.setSaldo(saldoint);
+        bku.setTanggalPelunasan(date);
         // return bku
         return bku;
     }
