@@ -36,11 +36,11 @@ public class UserController {
 	UserService userServiceImpl;
 
 	@GetMapping("/user/me")
-	@PreAuthorize("hasAnyRole('ROLE_BENDAHARA','ROLE_PEMERIKSA')")
+	@PreAuthorize("hasAnyRole('BENDAHARA','PEMERIKSA')")
 	public User getCurrentUser(@CurrentUser UserPrincipal currentUser) {
 		return userServiceImpl.getCurrentUser(currentUser);
 	}
-	
+
 	@GetMapping("/user/checkUsernameAvailability")
 	public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
 		return userServiceImpl.checkUsernameAvailability(username);

@@ -71,7 +71,7 @@ public class SekolahController {
         return sekolahServiceImpl.findAndSetSekolah(currentUser, npsnn);
     }
 
-    @PostMapping("save")
+    @PostMapping("/save")
     @PreAuthorize("hasRole('BENDAHARA')")
     public Sekolah save(@CurrentUser UserPrincipal currentUser, @RequestBody SekolahDto sekolahDto) {
         return sekolahServiceImpl.createAndSetSekolah(currentUser, sekolahDto);

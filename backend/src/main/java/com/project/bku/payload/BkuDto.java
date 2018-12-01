@@ -43,6 +43,8 @@ public class BkuDto extends UserDateAuditDto{
 
 	private String statusPemeriksa;
 
+	private Integer saldo;
+
 	private Long npsn;
 
 	private String fileName;
@@ -51,6 +53,14 @@ public class BkuDto extends UserDateAuditDto{
 
 	public BkuDto() {
 	
+	}
+
+	public Integer getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Integer saldo) {
+		this.saldo = saldo;
 	}
 
 	public Long getId() {

@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.bku.model.audit.UserDateAudit;
-import org.hibernate.annotations.Type;
 
 @MappedSuperclass
 public class BkuMappedSuperclass extends UserDateAudit implements Serializable {
@@ -35,6 +34,8 @@ public class BkuMappedSuperclass extends UserDateAudit implements Serializable {
     private Integer penerimaan;
 
     private Integer pengeluaran;
+
+    private Integer saldo;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = TIMEZONE)
     private Date tanggalPelunasan;
@@ -204,5 +205,13 @@ public class BkuMappedSuperclass extends UserDateAudit implements Serializable {
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public Integer getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Integer saldo) {
+        this.saldo = saldo;
     }
 }

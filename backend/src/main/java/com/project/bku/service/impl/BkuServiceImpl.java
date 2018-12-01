@@ -592,46 +592,79 @@ public class BkuServiceImpl implements BkuService {
         if (tahunTabel.equals("2018")) {
             Bku2018 bku = repositoryBku2018.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2018", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2019")) {
             Bku2019 bku = repositoryBku2019.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2019", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2020")) {
             Bku2020 bku = repositoryBku2020.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2020", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2021")) {
             Bku2021 bku = repositoryBku2021.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2021", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2022")) {
             Bku2022 bku = repositoryBku2022.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2022", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2023")) {
             Bku2023 bku = repositoryBku2023.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2023", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2024")) {
             Bku2024 bku = repositoryBku2024.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2024", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2025")) {
             Bku2025 bku = repositoryBku2025.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2025", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2026")) {
             Bku2026 bku = repositoryBku2026.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2026", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2027")) {
             Bku2027 bku = repositoryBku2027.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2027", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else if (tahunTabel.equals("2028")) {
             Bku2028 bku = repositoryBku2028.findByIdNpsn(id, npsn)
                     .orElseThrow(() -> new ResourceNotFoundException("Bku2028", "id", id));
+            if(bku.getFileName() == null){
+                throw new BadRequestException("File tidak ditemukan");
+            }
             downloadFileResponse = modelMapper.map(bku, DownloadFileResponse.class);
         } else {
             throw new BadRequestException("Resource not found.");
@@ -668,13 +701,15 @@ public class BkuServiceImpl implements BkuService {
                 .orElseThrow(() -> new ResourceNotFoundException("Sekolah", "id", npsn));
 
         // get range days in month
-        Date start = getFirstDateOfMonth(listBku.get(0).getTanggal());
-        Date end = getLastDateOfMonth(listBku.get(0).getTanggal());
+        Date start = getFirstDateOfMonth(listBku.get(1).getTanggal());
+        Date end = getLastDateOfMonth(listBku.get(1).getTanggal());
 
         if (tahunTabel.equals("2018")) {
             List<Bku2018> list = repositoryBku2018.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
+            List<Bku2018> list2 = repositoryBku2018.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
             if (list.size() > 0) {
                 repositoryBku2018.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
+                repositoryBku2018.deleteByUraian(listBku.get(0).getUraian());
             }
 
             for (BkuDto bkuDto : listBku) {
@@ -822,7 +857,7 @@ public class BkuServiceImpl implements BkuService {
 
         for (int i = 0; i < listBku.size(); i++) {
             //cek bulan
-            if (i < (listBku.size() - 1)) {
+            if (i < (listBku.size() - 1) && i != 0) {
                 if (!getMonth(listBku.get(i).getTanggal()).equals(getMonth(listBku.get(i + 1).getTanggal()))) {
                     throw new BadRequestException("Bulan pada uraian '" + listBku.get(i).getUraian() + "' tidak sama dengan '" + listBku.get(i + 1).getUraian() + "'");
                 }

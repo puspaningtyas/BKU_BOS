@@ -32,4 +32,7 @@ public interface RepositoryBku2018 extends JpaRepository<Bku2018, Long> {
     //Please fix using delete by month & npsn
 	@Transactional
 	void deleteBySekolahNpsnAndTanggalBetween(Long npsn, Date start, Date end);
+
+    @Transactional
+	void deleteByUraian(String uraian);
 }

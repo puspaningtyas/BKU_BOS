@@ -44,6 +44,8 @@ public class BkuExcelReponse{
 
 	private String fileName;
 
+	private String saldo;
+
 	private String fileType;
 
 	public BkuExcelReponse() {
@@ -170,4 +172,11 @@ public class BkuExcelReponse{
 		this.npsn = npsn;
 	}
 
+	public String getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(String saldo) {
+		this.saldo = saldo;
+	}
 }

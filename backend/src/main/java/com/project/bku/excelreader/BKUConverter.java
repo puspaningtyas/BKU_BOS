@@ -42,6 +42,11 @@ public class BKUConverter {
     public static final int NPSN_ROW = 4;
     private long npsn;
 
+    private static final int SALDO_PINDAHAN_ROW = 9;
+    private static final int SALDO_COLUMN = 6;
+
+    private int saldo;
+
     public BKUConverter() {
     }
 
@@ -59,29 +64,43 @@ public class BKUConverter {
                 Workbook workbook = WorkbookFactory.create(excel);
                 // get first sheet
                 Sheet sheet = workbook.getSheetAt(0);
-                int rowIndex = 0;
+                int rowIndex = SALDO_PINDAHAN_ROW;
                 boolean endOfReport = false;
+                // read saldo pindahan
+                Row row = sheet.getRow(rowIndex);
+                BkuDto saldoPindahan = readRowSaldoPindahan(row);
+                // read or set saldo
+                saldo = saldoPindahan.getSaldo();
+                // add to list
+                list.add(saldoPindahan);
+                // set row for next read
+                rowIndex++;
                 // chek month of report
-                if (isJanuaryReport(excel)) {
-                    // january report
-                    // first row
-                    rowIndex = FIRST_ROW_JANUARY_REPORT;
-                } else {
-                    // non january report
-                    // first row
-                    rowIndex = FIRST_ROW_JANUARY_REPORT + 1;
-                }
+//                if (isJanuaryReport(excel)) {
+//                    // january report
+//                    // first row
+//                    rowIndex = FIRST_ROW_JANUARY_REPORT;
+//                } else {
+//                    // non january report
+//                    // first row
+//                    rowIndex = FIRST_ROW_JANUARY_REPORT + 1;
+//                }
 
                 // read line of report
                 while (!endOfReport) {
                     // set row object
-                    Row row = sheet.getRow(rowIndex);
+                    row = sheet.getRow(rowIndex);
                     // baris sesuai standar apa tidak
                     if (isRowStandard(row)) {
                         //baca baris
                         BkuDto bku = readRow(row);
                         // tambahkan ke list
-                        list.add(bku);
+                        // cek saldo is right
+                        if (isSaldoRight(bku)) {
+                            list.add(bku);
+                        } else{
+                            throw new BadRequestException("Saldo is wrong");
+                        }
                     }
                     //increase row index
                     rowIndex++;
@@ -113,6 +132,68 @@ public class BKUConverter {
         }
     }
 
+    public boolean isSaldoRight(BkuDto bku) {
+        int realSaldo = 0;
+        if (bku.getPenerimaan() > 0) {
+            realSaldo = saldo + bku.getPenerimaan();
+            if (realSaldo == bku.getSaldo()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (bku.getPengeluaran() > 0) {
+            realSaldo = saldo - bku.getPengeluaran();
+            if (realSaldo == bku.getSaldo()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public BkuDto readRowSaldoPindahan(Row row) {
+        //read debit or credit column
+        Cell debitCell = row.getCell(DEBIT_COLUMN);
+        double debit = debitCell.getNumericCellValue();
+        int debitint = (int) debit;
+
+        Cell creditCell = row.getCell(CREDIT_COLUMN);
+        double credit = creditCell.getNumericCellValue();
+        int creditint = (int) credit;
+
+        //baca tanggal
+        Cell dateCell = row.getCell(DATE_COLUMN);
+        Date date = dateCell.getDateCellValue();
+
+        //baca uraian
+        String uraian;
+        Cell uraianCell;
+        uraianCell = row.getCell(URAIAN_COLUMN);
+        uraian = uraianCell.getStringCellValue();
+        uraian = uraian.toLowerCase();
+
+        //baca saldo
+        Cell saldoCell = row.getCell(SALDO_COLUMN);
+        double saldo = saldoCell.getNumericCellValue();
+        int saldoint = (int) saldo;
+
+        // set Bku object
+        BkuDto bku = new BkuDto();
+        bku.setNpsn(npsn);
+        bku.setTanggal(date);
+        bku.setNoKode("-");
+        bku.setNoBukti("-");
+        bku.setUraian(uraian);
+        bku.setPengeluaran(debitint);
+        bku.setPenerimaan(creditint);
+        bku.setSaldo(saldoint);
+        bku.setTanggalPelunasan(date);
+        // return bku
+        return bku;
+    }
+
     public boolean isRowStandard(Row row) {
         //read debit or credit column
         Cell debitCell = row.getCell(DEBIT_COLUMN);
@@ -138,7 +219,6 @@ public class BKUConverter {
     }
 
     public BkuDto readRow(Row row) {
-
         //read debit or credit column
         Cell debitCell = row.getCell(DEBIT_COLUMN);
         double debit = debitCell.getNumericCellValue();
@@ -178,10 +258,14 @@ public class BKUConverter {
         uraian = uraianCell.getStringCellValue();
         uraian = uraian.toLowerCase();
 
+        //baca saldo
+        Cell saldoCell = row.getCell(SALDO_COLUMN);
+        double saldo = saldoCell.getNumericCellValue();
+        int saldoint = (int) saldo;
+
         // baca tanggal lunas
         Cell tglLunasCell = row.getCell(LUNAS_DATE_COLUMN);
         Date tglLunas = tglLunasCell.getDateCellValue();
-
 
         //Temp
         String akreditasi = "";
@@ -242,6 +326,7 @@ public class BKUConverter {
         bku.setUraian(uraian);
         bku.setPengeluaran(debitint);
         bku.setPenerimaan(creditint);
+        bku.setSaldo(saldoint);
         bku.setTanggalPelunasan(tglLunas);
         bku.setKodeAkreditasi(akreditasi);
         bku.setKodeKementrian(kementrian);

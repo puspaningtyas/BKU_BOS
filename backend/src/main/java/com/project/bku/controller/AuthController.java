@@ -83,23 +83,18 @@ public class AuthController {
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        Role userRole;
-		if (signUpRequest.getRole().equals("PEMERIKSA")){
-            userRole = roleRepository.findByName(RoleName.ROLE_PEMERIKSA)
+        Role userRole = roleRepository.findByName(RoleName.ROLE_BENDAHARA)
                     .orElseThrow(() -> new AppException("User Role not set."));
-        }else{
-            userRole = roleRepository.findByName(RoleName.ROLE_BENDAHARA)
-                    .orElseThrow(() -> new AppException("User Role not set."));
-        }
+
 
 		user.setRoles(Collections.singleton(userRole));
-		
+
 		if (signUpRequest.getNpsn() != null) {
 			Sekolah sekolah = sekolahRepository.findById(Long.valueOf(signUpRequest.getNpsn()))
 					.orElseThrow(() -> new AppException("Sekolah tidak ditemukan."));
 			user.setSekolah(sekolah);
 		}
-		
+
 		User result = userRepository.save(user);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
