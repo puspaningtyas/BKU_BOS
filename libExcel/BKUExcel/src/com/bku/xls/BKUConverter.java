@@ -94,6 +94,7 @@ public class BKUConverter {
                         // cek saldo is right
                         if (isSaldoRight(bku)) {
                             list.add(bku);
+                            saldo = bku.getSaldo();
                         } else{
                             throw new BadRequestException("Saldo is wrong");
                         }
