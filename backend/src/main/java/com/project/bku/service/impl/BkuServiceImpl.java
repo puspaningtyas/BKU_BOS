@@ -709,7 +709,6 @@ public class BkuServiceImpl implements BkuService {
             List<Bku2018> list2 = repositoryBku2018.findAllBySekolahNpsnAndTanggalBetween(npsn, start, end);
             if (list.size() > 0) {
                 repositoryBku2018.deleteBySekolahNpsnAndTanggalBetween(npsn, start, end);
-                repositoryBku2018.deleteByUraian(listBku.get(0).getUraian());
             }
 
             for (BkuDto bkuDto : listBku) {
@@ -857,7 +856,7 @@ public class BkuServiceImpl implements BkuService {
 
         for (int i = 0; i < listBku.size(); i++) {
             //cek bulan
-            if (i < (listBku.size() - 1) && i != 0) {
+            if (i < (listBku.size() - 1)) {
                 if (!getMonth(listBku.get(i).getTanggal()).equals(getMonth(listBku.get(i + 1).getTanggal()))) {
                     throw new BadRequestException("Bulan pada uraian '" + listBku.get(i).getUraian() + "' tidak sama dengan '" + listBku.get(i + 1).getUraian() + "'");
                 }

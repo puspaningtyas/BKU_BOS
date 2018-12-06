@@ -69,17 +69,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUserProfile(UserPrincipal currentUser, UserUpdateRequest userDetails) throws Exception {
-        User user = userRepository.findById(userDetails.getId())
+        User user = userRepository.findById(currentUser.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", userDetails.getUsername()));
-        if (currentUser.getId().equals(userDetails.getId())) {
-            user.setName(userDetails.getName());
-            user.setUsername(userDetails.getUsername());
-            user.setEmail(userDetails.getEmail());
-            user.setTahunAktif(userDetails.getTahunAktif());
-            return userRepository.save(user);
-        } else {
-            throw new BadRequestException("Anda tidak diijinkan mengedit profile orang lain.");
-        }
+        user.setName(userDetails.getName());
+        user.setUsername(userDetails.getUsername());
+        user.setTahunAktif(userDetails.getTahunAktif());
+        user.setEmail(userDetails.getEmail());
+        return userRepository.save(user);
     }
 
     @Override

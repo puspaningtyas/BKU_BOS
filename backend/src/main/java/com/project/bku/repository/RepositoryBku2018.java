@@ -33,6 +33,4 @@ public interface RepositoryBku2018 extends JpaRepository<Bku2018, Long> {
 	@Transactional
 	void deleteBySekolahNpsnAndTanggalBetween(Long npsn, Date start, Date end);
 
-    @Transactional
-	void deleteByUraian(String uraian);
 }
